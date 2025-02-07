@@ -1,0 +1,12 @@
+---
+title: "Estimation of out-of-sample prediction error in regression"
+---
+
+## Lecture 1:
+
+### learning outcomes:
+
+
+## Lecture 2:
+
+### learning outcomes:

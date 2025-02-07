@@ -5,8 +5,21 @@ title: "Estimation of out-of-sample prediction error in regression"
 ## Lecture 1:
 
 ### learning outcomes:
+By the end of this lectures students should be able to:
+ - understand the difference between inference and prediction in regression (reminder)
+ - understand the difference between in-sample and out-of-sample prediction errors and define them
+ - understand the imporance of out-of-sample prediction error
+ - estimate out-of-sample prediction error via (in-sample) training error in linear regression
+ - understand the draw back of estimating the out-of-sample prediction error via training error
+ - understand the Bias-Variance Trade-Off
 
 
 ## Lecture 2:
 
 ### learning outcomes:
+By the end of this lecture students should be able to:
+ - understand what resampling methods are
+ - estimate out-of-sample prediction error via Leave-One-Out Cross-Validation
+ - etimate out-of-sample prediction error via k-Fold Cross-Validation
+ - undetstand the pros and cons of using each method
+ - understand Bias-Variance Trade-Of for k-Fold Cross-Validation

@@ -7,6 +7,13 @@
     "text": "About this site"
   },
   {
+    "objectID": "lect2.html#lecture-2",
+    "href": "lect2.html#lecture-2",
+    "title": "Estimation of out-of-sample prediction error in regression",
+    "section": "Lecture 2:",
+    "text": "Lecture 2:\n\nlearning outcomes:"
+  },
+  {
     "objectID": "Untitled.html",
     "href": "Untitled.html",
     "title": "Lesson plan",
@@ -14,11 +21,82 @@
     "text": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Set seed for reproducibility\nnp.random.seed(1)\n\n# Define parameters\nn = 30\n\n# Generate training data\nx = np.sort(np.random.uniform(-3, 3, n))\ny = 2 * x + 2 * np.random.randn(n)\n\n# Generate test data\nx0 = np.sort(np.random.uniform(-3, 3, n))\ny0 = 2 * x0 + 2 * np.random.randn(n)\n\n# Set up plotting\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\n# Define axis limits\nxlim = (min(np.min(x), np.min(x0)), max(np.max(x), np.max(x0)))\nylim = (min(np.min(y), np.min(y0)), max(np.max(y), np.max(y0)))\n\n# Plot training data\naxes[0].scatter(x, y)\naxes[0].set_xlim(xlim)\naxes[0].set_ylim(ylim)\naxes[0].set_title(\"Training data\")\n\n# Plot test data\naxes[1].scatter(x0, y0)\naxes[1].set_xlim(xlim)\naxes[1].set_ylim(ylim)\naxes[1].set_title(\"Test data\")\n\n# Show plots\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression\n\n# Set seed for reproducibility\nnp.random.seed(2)\n\n# Generate training data\nn = 30\nx = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)\ny = 2 * x.ravel() + 2 * np.random.randn(n)\n\n# Generate test data\nx0 = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)\ny0 = 2 * x0.ravel() + 2 * np.random.randn(n)\n\n# Train a simple linear model\nlm_1 = LinearRegression()\nlm_1.fit(x, y)\n\n# Predictions\nyhat_1 = lm_1.predict(x)\ny0hat_1 = lm_1.predict(x0)\n\n# Compute errors\ntrain_err_1 = np.mean((y - yhat_1) ** 2)\ntest_err_1 = np.mean((y0 - y0hat_1) ** 2)\n\n# Set up plotting\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\n# Define axis limits\nxlim = (min(np.min(x), np.min(x0)), max(np.max(x), np.max(x0)))\nylim = (min(np.min(y), np.min(y0)), max(np.max(y), np.max(y0)))\n\n# Plot training data\naxes[0].scatter(x, y, label=\"Training Data\")\naxes[0].plot(x, yhat_1, color='red', linewidth=2, label=\"Fitted Line\")\naxes[0].set_xlim(xlim)\naxes[0].set_ylim(ylim)\naxes[0].set_title(\"Training data\")\naxes[0].text(0, -6, f\"Training error: {train_err_1:.3f}\", fontsize=12)\n\n# Plot test data\naxes[1].scatter(x0, y0, label=\"Test Data\")\naxes[1].plot(x0, y0hat_1, color='green', linewidth=2, label=\"Fitted Line\")\naxes[1].set_xlim(xlim)\naxes[1].set_ylim(ylim)\naxes[1].set_title(\"Test data\")\naxes[1].text(0, -6, f\"Test error: {test_err_1:.3f}\", fontsize=12)\n\n# Show plots\nplt.tight_layout()\nplt.show()"
   },
   {
+    "objectID": "lect1.html",
+    "href": "lect1.html",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "",
+    "text": "We observe a quantitative response \\(Y\\) and \\(p\\) diferent predictors, \\(X1, X2,...,Xp\\). We assume that there is some relationship between \\(Y\\) and \\(X = (X1, X2,...,Xp)\\), which can be written in the very general form as $Y = f(X) +$, where \\(f\\) is some fxed but unknown function of \\(X_1,...,X_p\\), and \\(\\epsilon\\) is a random error term, which is independent of \\(X\\) and has mean zero. When \\(Y\\) is qualitative, we can this a regression problem."
+  },
+  {
+    "objectID": "lect1.html#regression",
+    "href": "lect1.html#regression",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "",
+    "text": "We observe a quantitative response \\(Y\\) and \\(p\\) diferent predictors, \\(X1, X2,...,Xp\\). We assume that there is some relationship between \\(Y\\) and \\(X = (X1, X2,...,Xp)\\), which can be written in the very general form as $Y = f(X) +$, where \\(f\\) is some fxed but unknown function of \\(X_1,...,X_p\\), and \\(\\epsilon\\) is a random error term, which is independent of \\(X\\) and has mean zero. When \\(Y\\) is qualitative, we can this a regression problem."
+  },
+  {
+    "objectID": "lect1.html#inference-vs-prediction",
+    "href": "lect1.html#inference-vs-prediction",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "Inference VS Prediction",
+    "text": "Inference VS Prediction\nInference: Focuses on finding the relationship and association between predictors and reponse\nPrediction: Focuses on finding \\(\\hat(Y)\\) for an unseen \\(X\\)."
+  },
+  {
+    "objectID": "lect1.html#mean-squared-error-mse",
+    "href": "lect1.html#mean-squared-error-mse",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "mean squared error (MSE)",
+    "text": "mean squared error (MSE)"
+  },
+  {
+    "objectID": "lect1.html#out-of-sample-error",
+    "href": "lect1.html#out-of-sample-error",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "out-of-sample error",
+    "text": "out-of-sample error\n\\(E(Y^*−\\hat{Y}^*)^22\\)"
+  },
+  {
+    "objectID": "lect1.html#in-sample-error",
+    "href": "lect1.html#in-sample-error",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "in-sample error",
+    "text": "in-sample error"
+  },
+  {
+    "objectID": "lect1.html#example-linear-regression",
+    "href": "lect1.html#example-linear-regression",
+    "title": "Lecture 1: Basic concepts and definitions",
+    "section": "Example Linear Regression",
+    "text": "Example Linear Regression"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Estimation of out-of-sample prediction error in regression",
+    "section": "",
+    "text": "By the end of this lectures students should be able to: - understand the difference between inference and prediction in regression (reminder) - understand the difference between in-sample and out-of-sample prediction errors and define them - understand the imporance of out-of-sample prediction error - estimate out-of-sample prediction error via (in-sample) training error in linear regression - understand the draw back of estimating the out-of-sample prediction error via training error - understand the Bias-Variance Trade-Off",
+    "crumbs": [
+      "Home",
+      "Learning outcomes"
+    ]
+  },
+  {
+    "objectID": "index.html#lecture-1",
+    "href": "index.html#lecture-1",
+    "title": "Estimation of out-of-sample prediction error in regression",
+    "section": "",
+    "text": "By the end of this lectures students should be able to: - understand the difference between inference and prediction in regression (reminder) - understand the difference between in-sample and out-of-sample prediction errors and define them - understand the imporance of out-of-sample prediction error - estimate out-of-sample prediction error via (in-sample) training error in linear regression - understand the draw back of estimating the out-of-sample prediction error via training error - understand the Bias-Variance Trade-Off",
+    "crumbs": [
+      "Home",
+      "Learning outcomes"
+    ]
+  },
+  {
     "objectID": "index.html#lecture-2",
     "href": "index.html#lecture-2",
     "title": "Estimation of out-of-sample prediction error in regression",
     "section": "Lecture 2:",
-    "text": "Lecture 2:\n\nlearning outcomes:",
+    "text": "Lecture 2:\n\nlearning outcomes:\nBy the end of this lecture students should be able to: - understand what resampling methods are - estimate out-of-sample prediction error via Leave-One-Out Cross-Validation - etimate out-of-sample prediction error via k-Fold Cross-Validation - undetstand the pros and cons of using each method - understand Bias-Variance Trade-Of for k-Fold Cross-Validation",
     "crumbs": [
       "Home",
       "Learning outcomes"

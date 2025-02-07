@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estimation of out-of-sample prediction error in regression – Lesson plan</title>
+<title>Lecture 1: Basic concepts and definitions – Lesson plan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,11 +67,42 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Estimation of out-of-sample prediction error in regression – Lesson plan">
+<meta property="og:title" content="Lecture 1: Basic concepts and definitions – Lesson plan">
+<meta property="og:description" content="">
 <meta property="og:site_name" content="Lesson plan">
-<meta name="twitter:title" content="Estimation of out-of-sample prediction error in regression – Lesson plan">
+<meta name="twitter:title" content="Lecture 1: Basic concepts and definitions – Lesson plan">
+<meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -118,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Learning outcomes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Lecture 1: Basic concepts and definitions</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -140,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Learning outcomes</span></a>
   </div>
 </li>
@@ -166,14 +197,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lecture-1" id="toc-lecture-1" class="nav-link active" data-scroll-target="#lecture-1">Lecture 1:</a>
-  <ul class="collapse">
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">learning outcomes:</a></li>
-  </ul></li>
-  <li><a href="#lecture-2" id="toc-lecture-2" class="nav-link" data-scroll-target="#lecture-2">Lecture 2:</a>
-  <ul class="collapse">
-  <li><a href="#learning-outcomes-1" id="toc-learning-outcomes-1" class="nav-link" data-scroll-target="#learning-outcomes-1">learning outcomes:</a></li>
-  </ul></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link active" data-scroll-target="#regression">Regression:</a></li>
+  <li><a href="#inference-vs-prediction" id="toc-inference-vs-prediction" class="nav-link" data-scroll-target="#inference-vs-prediction">Inference VS Prediction</a></li>
+  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse">mean squared error (MSE)</a></li>
+  <li><a href="#out-of-sample-error" id="toc-out-of-sample-error" class="nav-link" data-scroll-target="#out-of-sample-error">out-of-sample error</a></li>
+  <li><a href="#in-sample-error" id="toc-in-sample-error" class="nav-link" data-scroll-target="#in-sample-error">in-sample error</a></li>
+  <li><a href="#example-linear-regression" id="toc-example-linear-regression" class="nav-link" data-scroll-target="#example-linear-regression">Example Linear Regression</a></li>
   </ul>
 </nav>
     </div>
@@ -182,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Estimation of out-of-sample prediction error in regression</h1>
+<h1 class="title">Lecture 1: Basic concepts and definitions</h1>
 </div>
 
 
@@ -199,21 +228,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="lecture-1" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-1">Lecture 1:</h2>
-<section id="learning-outcomes" class="level3">
-<h3 class="anchored" data-anchor-id="learning-outcomes">learning outcomes:</h3>
-<p>By the end of this lectures students should be able to: - understand the difference between inference and prediction in regression (reminder) - understand the difference between in-sample and out-of-sample prediction errors and define them - understand the imporance of out-of-sample prediction error - estimate out-of-sample prediction error via (in-sample) training error in linear regression - understand the draw back of estimating the out-of-sample prediction error via training error - understand the Bias-Variance Trade-Off</p>
+<section id="regression" class="level2">
+<h2 class="anchored" data-anchor-id="regression">Regression:</h2>
+<p>We observe a quantitative response <span class="math inline">\(Y\)</span> and <span class="math inline">\(p\)</span> diferent predictors, <span class="math inline">\(X1, X2,...,Xp\)</span>. We assume that there is some relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X = (X1, X2,...,Xp)\)</span>, which can be written in the very general form as $Y = f(X) +$, where <span class="math inline">\(f\)</span> is some fxed but unknown function of <span class="math inline">\(X_1,...,X_p\)</span>, and <span class="math inline">\(\epsilon\)</span> is a random error term, which is independent of <span class="math inline">\(X\)</span> and has mean zero. When <span class="math inline">\(Y\)</span> is qualitative, we can this a regression problem.</p>
 </section>
+<section id="inference-vs-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="inference-vs-prediction">Inference VS Prediction</h2>
+<p><strong>Inference</strong>: Focuses on finding the relationship and association between predictors and reponse</p>
+<p><strong>Prediction</strong>: Focuses on finding <span class="math inline">\(\hat(Y)\)</span> for an unseen <span class="math inline">\(X\)</span>.</p>
 </section>
-<section id="lecture-2" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-2">Lecture 2:</h2>
-<section id="learning-outcomes-1" class="level3">
-<h3 class="anchored" data-anchor-id="learning-outcomes-1">learning outcomes:</h3>
-<p>By the end of this lecture students should be able to: - understand what resampling methods are - estimate out-of-sample prediction error via Leave-One-Out Cross-Validation - etimate out-of-sample prediction error via k-Fold Cross-Validation - undetstand the pros and cons of using each method - understand Bias-Variance Trade-Of for k-Fold Cross-Validation</p>
+<section id="mean-squared-error-mse" class="level2">
+<h2 class="anchored" data-anchor-id="mean-squared-error-mse">mean squared error (MSE)</h2>
+</section>
+<section id="out-of-sample-error" class="level2">
+<h2 class="anchored" data-anchor-id="out-of-sample-error">out-of-sample error</h2>
+<p><span class="math inline">\(E(Y^*−\hat{Y}^*)^22\)</span></p>
+</section>
+<section id="in-sample-error" class="level2">
+<h2 class="anchored" data-anchor-id="in-sample-error">in-sample error</h2>
+</section>
+<section id="example-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="example-linear-regression">Example Linear Regression</h2>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -1,0 +1,28 @@
+---
+title: "Lecture 1: Basic concepts and definitions"
+---
+
+## Regression:
+
+We observe a quantitative response $Y$ and $p$
+diferent predictors, $X1, X2,...,Xp$. We assume that there is some
+relationship between $Y$ and $X = (X1, X2,...,Xp)$, which can be written
+in the very general form as $Y = f(X) +\epsilon $, where $f$ is some fxed but unknown function of $X_1,...,X_p$, and $\epsilon$ is a random error term, which is independent of $X$ and has mean zero. When $Y$ is qualitative, we can this a regression problem. 
+
+## Inference VS Prediction
+
+**Inference**: Focuses on finding the relationship and association between predictors and reponse
+
+**Prediction**: Focuses on finding $\hat(Y)$ for an unseen $X$.
+
+
+## mean squared error (MSE)
+
+## out-of-sample error
+
+$E(Y^*−\hat{Y}^*)^22$
+
+## in-sample error
+
+
+## Example Linear Regression
