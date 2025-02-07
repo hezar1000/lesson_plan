@@ -29,10 +29,8 @@ website:
     style: "docked"
     search: true
     contents:
-      - section: "Lecture 1"
-        contents:
-          - text: "Lecture 0: Course Oreintation"
-            # href: lectures_notes/0-Orientation.qmd
+      - text: "Lecture 1: Course Oreintation"
+        href: index.qmd
 
 
 format:
