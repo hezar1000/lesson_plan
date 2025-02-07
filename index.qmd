@@ -1,7 +1,12 @@
 ---
-title: "lesson plan"
+title: "Estimation of out-of-sample prediction error in regression"
 ---
 
-This is a Quarto website.
+## Lecture 1:
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+### learning outcomes:
+
+
+## Lecture 2:
+
+### learning outcomes:

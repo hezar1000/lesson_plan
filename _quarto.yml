@@ -29,7 +29,11 @@ website:
     style: "docked"
     search: true
     contents:
-      - text: "Lecture 1: Course Oreintation"
+      - text: "Learning outcomes"
+        href: index.qmd
+      - text: "Lecture 1: Intro"
+        href: index.qmd
+      - text: "Lecture 2: Cross Validation"
         href: index.qmd
 
 

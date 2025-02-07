@@ -7,14 +7,21 @@
     "text": "About this site"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "lesson plan",
+    "objectID": "Untitled.html",
+    "href": "Untitled.html",
+    "title": "Lesson plan",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.",
+    "text": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Set seed for reproducibility\nnp.random.seed(1)\n\n# Define parameters\nn = 30\n\n# Generate training data\nx = np.sort(np.random.uniform(-3, 3, n))\ny = 2 * x + 2 * np.random.randn(n)\n\n# Generate test data\nx0 = np.sort(np.random.uniform(-3, 3, n))\ny0 = 2 * x0 + 2 * np.random.randn(n)\n\n# Set up plotting\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\n# Define axis limits\nxlim = (min(np.min(x), np.min(x0)), max(np.max(x), np.max(x0)))\nylim = (min(np.min(y), np.min(y0)), max(np.max(y), np.max(y0)))\n\n# Plot training data\naxes[0].scatter(x, y)\naxes[0].set_xlim(xlim)\naxes[0].set_ylim(ylim)\naxes[0].set_title(\"Training data\")\n\n# Plot test data\naxes[1].scatter(x0, y0)\naxes[1].set_xlim(xlim)\naxes[1].set_ylim(ylim)\naxes[1].set_title(\"Test data\")\n\n# Show plots\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression\n\n# Set seed for reproducibility\nnp.random.seed(2)\n\n# Generate training data\nn = 30\nx = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)\ny = 2 * x.ravel() + 2 * np.random.randn(n)\n\n# Generate test data\nx0 = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)\ny0 = 2 * x0.ravel() + 2 * np.random.randn(n)\n\n# Train a simple linear model\nlm_1 = LinearRegression()\nlm_1.fit(x, y)\n\n# Predictions\nyhat_1 = lm_1.predict(x)\ny0hat_1 = lm_1.predict(x0)\n\n# Compute errors\ntrain_err_1 = np.mean((y - yhat_1) ** 2)\ntest_err_1 = np.mean((y0 - y0hat_1) ** 2)\n\n# Set up plotting\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\n# Define axis limits\nxlim = (min(np.min(x), np.min(x0)), max(np.max(x), np.max(x0)))\nylim = (min(np.min(y), np.min(y0)), max(np.max(y), np.max(y0)))\n\n# Plot training data\naxes[0].scatter(x, y, label=\"Training Data\")\naxes[0].plot(x, yhat_1, color='red', linewidth=2, label=\"Fitted Line\")\naxes[0].set_xlim(xlim)\naxes[0].set_ylim(ylim)\naxes[0].set_title(\"Training data\")\naxes[0].text(0, -6, f\"Training error: {train_err_1:.3f}\", fontsize=12)\n\n# Plot test data\naxes[1].scatter(x0, y0, label=\"Test Data\")\naxes[1].plot(x0, y0hat_1, color='green', linewidth=2, label=\"Fitted Line\")\naxes[1].set_xlim(xlim)\naxes[1].set_ylim(ylim)\naxes[1].set_title(\"Test data\")\naxes[1].text(0, -6, f\"Test error: {test_err_1:.3f}\", fontsize=12)\n\n# Show plots\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "objectID": "index.html#lecture-2",
+    "href": "index.html#lecture-2",
+    "title": "Estimation of out-of-sample prediction error in regression",
+    "section": "Lecture 2:",
+    "text": "Lecture 2:\n\nlearning outcomes:",
     "crumbs": [
       "Home",
-      "Lecture 1: Course Oreintation"
+      "Learning outcomes"
     ]
   }
 ]
