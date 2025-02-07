@@ -3,12 +3,37 @@ project:
   output-dir: docs
 
 website:
-  title: "lesson plan"
+  title: "Lesson plan"
   navbar:
+    right:
+      - icon: github
+        href: https://github.com/hezar1000/lesson_plan
+        aria-label: GitHub
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+
+  open-graph: true
+  twitter-card: true
+  page-navigation: true
+  bread-crumbs: true
+  search:
+    show-item-context: true
+    type: overlay
+
+  sidebar:
+    # logo: mds-hex-sticker-small.png
+    # logo-alt: "MDS Logo Image"
+    background: "#3498db"
+    style: "docked"
+    search: true
+    contents:
+      - section: "Lecture 1"
+        contents:
+          - text: "Lecture 0: Course Oreintation"
+            # href: lectures_notes/0-Orientation.qmd
+
 
 format:
   html:
