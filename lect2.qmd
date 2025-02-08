@@ -1,12 +1,179 @@
 ---
 title: "Estimation of out-of-sample prediction error in regression"
+execute:
+  echo: false
+format: html
+jupyter: quarto_env 
 ---
 
-## Lecture 1:
+# Lecture 2: Cross Validation
 
-### learning outcomes:
+## Learning outcomes:
+By the end of this lecture students should be able to:
+
+ - Explain why we should split the training data to get a validation set
+ - Explain the idea behind cross validation in model training on a high level. 
+ - Use Python to estimate out-of-sample prediction error via Leave-One-Out cross-validation (LOOCV) given training data
+ - Use Python to etimate out-of-sample prediction error via $K$-Fold cross-validation given training data
+ - Explain the pros and cons of LOOCV and $K$-Fold cross-validation when used in regression
+ - Explain Bias-Variance Trade-Off for $K$-Fold cross-validation when used in regression
+
+## Splitting the training data
+
+If we use all of our taining data to fit our regression models, estimating prediction error with in-sample (training) error in essentially the best thing we can do. To avoid this, a common approach to evaluate model perfomance is to split the available data into a (smaller) training set and a validation set. We can then fit our model using only the smaller training set and evaluate its performance by predicting the responses for the validation set. This allows us to simulate the model’s prediction error on unseen data while still having access to the true responses outside the test set.  
+
+## A single held-out point
+One way to split the training data to get a validation set is to hold out one of the data points. We can then train the model using the remaining $(n−1)$ data points and estimate the prediction error by
+
+$$(y_n - \hat{f}^{-n}(x_n))^2,$$
+
+where $\hat{f}^{-n}$ denote the regression function estimate using all by the data point $(y_n, x_n)$.
+
+However, this estimate highly depends on the chosen point and can be very high variance. 
+
+---
+
+:::{.activity}
+
+::::{.activity-header}
+Activity: In-class discussion
+
+::::
+::::{.activity-container}
+
+ - Is $\mathbb{E}[(y_n - \hat{f}^{-n}(x_n))^2]$ a reasonable estimate for the out-of-sample prediction error? Discuss with your neighbors and report back.
+
+::::
+:::
 
 
-## Lecture 2:
 
-### learning outcomes:
+## Leave-one-out cross-validation
+One way to modify the above approach to reduce the variability is to repeat the above process for every single point and look at the average of error estiamtes, i.e., estiamte the prediction error by
+
+$$\frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}^{-i}(x_i))^2.$$
+
+This approach is called ed leave-one-out cross-validation (LOOCV). Notice that we are basically estimating $\mathbb{E}[(y_n - \hat{f}^{-n}(x_n))^2]$ empirically here. Also, since we are repeating training process $n$ times the variance of our prediction is highly reduced, but since the size of our dataset during the training phase is roughly the same size is the original training set, LOOCV increases the computational load by a factor of $n$.
+
+
+## $K$-fold cross-validation
+
+One further modifcation to Leave-one-out cross-validation is instead of holding out 1 data point at a time and repeat this process $n$ times, slit the training data into $k$ folds $F_1,...,F_k$, fit our regression model using data from $(k-1)$ folds and calculate the error for the $k$th fold using:
+
+$$\frac{1}{n_k} \sum_{i \in F_k} (y_i - \hat{f}^{-(k)}(x_i))^2,$$
+
+where $n_k = |F_k|$, and $\hat{f}^{-(k)}$ denotes the regression fuction trained using all folds but the $k$th one. We can then repeate this process $k$ times to estimate our prediction error by taking over over the error calculated for each fold
+
+$$\frac{1}{k} \sum_{i=1}^k \frac{1}{n_k} \sum_{i \in F_k} (y_i - \hat{f}^{-(k)}(x_i))^2.$$
+
+This method is called $K$-fold cross-validation
+
+## How to perform LOOCV in Python
+
+We can run LOOCV in Python by using the function `LeaveOneOut` from the `sklearn` library. Here's an example to illusterate how to do so:
+
+```{python}
+#| echo: true
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import LeaveOneOut
+from sklearn.metrics import mean_squared_error
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Define number of samples
+n = 100 
+
+# Generate training data
+x = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)
+y = 2 * x.squeeze() + 2 * np.random.randn(n)  # Linear relationship with noise
+
+# Initialize LOOCV
+loo = LeaveOneOut()
+model = LinearRegression()
+
+# Store errors
+errors = []
+
+# Perform LOOCV
+for train_index, test_index in loo.split(x):
+    # Split the data
+    x_train, x_test = x[train_index], x[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    # Train the model
+    model.fit(x_train, y_train)
+
+    # Predict on the left-out test point
+    y_pred = model.predict(x_test)
+
+    # Compute squared error
+    error = (y_test - y_pred) ** 2
+    errors.append(error)
+
+# Compute mean squared error
+loocv_mse = np.mean(errors)
+
+# Print results
+print(f"LOOCV Mean Squared Error: {loocv_mse:.4f}")
+
+```
+
+## How to perform $K$-fold cross-validation in Python
+
+We can run LOOCV in Python by using the function `KFold` from the `sklearn` library. Here's an example to illusterate how to do so:
+
+
+```{python}
+#| echo: true
+
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+# Define number of samples
+n = 100 
+
+# Generate training data
+x = np.sort(np.random.uniform(-3, 3, n)).reshape(-1, 1)
+y = 2 * x.squeeze() + 2 * np.random.randn(n)  # Linear relationship with noise
+
+# Initialize 10-Fold Cross-Validation
+kf = KFold(n_splits=10, shuffle=True, random_state=42)
+model = LinearRegression()
+
+# Store errors
+errors = []
+
+# Perform 10-Fold Cross-Validation
+for train_index, test_index in kf.split(x):
+    # Split the data
+    x_train, x_test = x[train_index], x[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    # Train the model
+    model.fit(x_train, y_train)
+
+    # Predict on the test set
+    y_pred = model.predict(x_test)
+
+    # Compute mean squared error for this fold
+    error = mean_squared_error(y_test, y_pred)
+    errors.append(error)
+    # print(error)
+
+# Compute mean squared error across all folds
+kfold_mse = np.mean(errors)
+
+# Print results
+print(f"10-Fold Cross-Validation Mean Squared Error: {kfold_mse:.4f}")
+
+
+```
+
+## Bias-Variance Trade-Off for k-Fold Cross-Validation

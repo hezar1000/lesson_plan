@@ -1,1 +1,33 @@
 /* css styles */
+
+/* Activity */
+.activity {
+    margin: 0.5em 0;
+    border: 1px solid var(--blue-light);
+    border-radius: 5px;
+}
+
+.activity-header {
+    margin-left: 0em;
+    padding-left:  60px;
+    padding-top:  5px;
+    padding-bottom: 0.1em;
+    color: var(--black);
+    background-color: var(--blue-light); /* Light blue background */
+    border-top-right-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-image: url("/puzzle.png"); /* Puzzle image */
+}
+
+.activity-container {
+    padding: 15px 20px;
+    color: var(--grey-medium);
+    background-color: var(--light-blue-background); /* Light blue background inside the container */
+    border-bottom-right-radius: 5px;
+}

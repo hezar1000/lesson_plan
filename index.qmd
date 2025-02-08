@@ -2,24 +2,65 @@
 title: "Estimation of out-of-sample prediction error in regression"
 ---
 
-## Lecture 1:
+## Assumptions about students
+When designing this lesson plan, I've assumed that students
 
-### learning outcomes:
-By the end of this lectures students should be able to:
- - understand the difference between inference and prediction in regression (reminder)
- - understand the difference between in-sample and out-of-sample prediction errors and define them
- - understand the imporance of out-of-sample prediction error
- - estimate out-of-sample prediction error via (in-sample) training error in linear regression
- - understand the draw back of estimating the out-of-sample prediction error via training error
- - understand the Bias-Variance Trade-Off
+- have taken introductory courses in probability, calculus, and linear algebra. 
+- have taken courses in statistical learning but have mostly focused on inference rather than prediction.  
+- are comfortable writing code in Python and have used libraries such as `numpy`, `pandas`, `matplotlib`, and `sklearn` in previous courses (e.g., to fit a linear regression model) but have not used them for more advanced tasks such as cross-validation.
+- are comfortable running Python code in a jupyter lab enviroment on their own. 
+- are familiar with the matrix notation used in statistical learning.
 
 
-## Lecture 2:
+## Learning outcomes
 
-### learning outcomes:
-By the end of this lecture students should be able to:
- - understand what resampling methods are
- - estimate out-of-sample prediction error via Leave-One-Out Cross-Validation
- - etimate out-of-sample prediction error via k-Fold Cross-Validation
- - undetstand the pros and cons of using each method
- - understand Bias-Variance Trade-Of for k-Fold Cross-Validation
+By the end of this lesson, students should be able to:  
+
+- Indentify the difference between inference and prediction in regression.  
+- Understand the training/test/validation data split
+- Define out-of-sample prediction error in theory and identify its importance.  
+- Use Python to estimate out-of-sample prediction error via cross-validation given training data  .  
+- Understand the Bias-Variance Trade-Off and it relationship to prediction error.
+
+
+## Outline
+
+ - Lecture 1: Basics
+    - Regression definition
+    - Inference vs Prediction
+    - Training/test split
+    - Out-of-sample prediction error in regression
+        - Definition
+        - Why do we care about estimating out-of-sample error?
+        - In-class discussion: can we ever make a prediction with zero prediction error?
+            - Goals: 
+                - give students a chance to digest and reflect on the topics covers so far, 
+                - remind them of reducible and irreducible error
+    - Estimating the prediction error
+        - Motivation
+        - First approach: estimating prediction error with in-sample (training) error
+            - Example: Linear Regression
+                - In-class live-coding activity: calculate and compare the training and test errors using different seeds.
+                    - Goals: 
+                        - give students a chance to play with training and test errors on simple regression model 
+                        - give thema chance to observe how different they can be.
+    - The Bias-Variance Trade-Off
+        - Motivating example: 10th order polynomial regression
+        - Definition
+
+- Lecture 2: Cross validation
+    - Estimating the prediction error (continued)
+        - Splitting the training data to get a validation set
+        - Second approach: A single held-out point
+            - In-class discussion: Discussion of estimate for the out-of-sample prediction error via a single held-out point
+                - Goals: 
+                    - Give students a chance to digest the idea of a validation set
+                    - Make them more comfortable with estimating the prediction error with training data
+        - Third approach: Cross-validation
+            - LOOCV
+            - K-fold cross-calidation
+        - Implementing cross-valication in Python
+            - How to perform LOOCV in Python
+            - How to perform $K$-fold cross-validation in Python
+    - Bias-Variance Trade-Off for k-Fold cross-validation
+

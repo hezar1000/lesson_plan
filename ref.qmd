@@ -1,0 +1,14 @@
+---
+title: "Estimation of out-of-sample prediction error in regression"
+---
+
+## References
+
+- [*An Introduction to Statistical Learning with Applications in Python*](https://www.statlearning.com/), Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani, 2023.
+
+- [*Lecture Notes on Statistical Prediction*](https://www.stat.cmu.edu/~ryantibs/statcomp/lectures/prediction.html), Ryan Tibshirani, 2021. 
+
+
+- [*Lecture notes on Error and Validation*](https://www.stat.cmu.edu/~ryantibs/advmethods/notes/errval.pdf), Ryan Tibshirani, 2014. 
+
+- I also used [ChatGPT](https://chatgpt.com/) for a little bit of brainstorming, proof-reading, and genereating code. 

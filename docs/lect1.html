@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lecture 1: Basic concepts and definitions – Lesson plan</title>
+<title>Estimation of out-of-sample prediction error in regression – Lesson plan</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,6 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./lect2.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -97,12 +133,10 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Lecture 1: Basic concepts and definitions – Lesson plan">
-<meta property="og:description" content="">
+<link rel="stylesheet" href="custom.css">
+<meta property="og:title" content="Estimation of out-of-sample prediction error in regression – Lesson plan">
 <meta property="og:site_name" content="Lesson plan">
-<meta name="twitter:title" content="Lecture 1: Basic concepts and definitions – Lesson plan">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="Estimation of out-of-sample prediction error in regression – Lesson plan">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -127,14 +161,15 @@ window.Quarto = {
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
-  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/hezar1000/lesson_plan"> <i class="bi bi-github" role="img" aria-label="GitHub">
+    <a class="nav-link" href="https://github.com/hezar1000/lesson_plan"> <i class="bi bi-github" role="img" aria-label="Website">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.cs.ubc.ca/~hzarkoob/"> <i class="bi bi-info-circle" role="img" aria-label="Website">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -149,7 +184,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Lecture 1: Basic concepts and definitions</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lect1.html">Lecture 1: Basics</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -172,19 +207,25 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Learning outcomes</span></a>
+ <span class="menu-text">Learning outcomes/Outline</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lecture 1: Intro</span></a>
+  <a href="./lect1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lecture 1: Basics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lecture 2: Cross Validation</span></a>
+  <a href="./lect2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2: Cross-validation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ref.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
@@ -197,12 +238,30 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#regression" id="toc-regression" class="nav-link active" data-scroll-target="#regression">Regression:</a></li>
-  <li><a href="#inference-vs-prediction" id="toc-inference-vs-prediction" class="nav-link" data-scroll-target="#inference-vs-prediction">Inference VS Prediction</a></li>
-  <li><a href="#mean-squared-error-mse" id="toc-mean-squared-error-mse" class="nav-link" data-scroll-target="#mean-squared-error-mse">mean squared error (MSE)</a></li>
-  <li><a href="#out-of-sample-error" id="toc-out-of-sample-error" class="nav-link" data-scroll-target="#out-of-sample-error">out-of-sample error</a></li>
-  <li><a href="#in-sample-error" id="toc-in-sample-error" class="nav-link" data-scroll-target="#in-sample-error">in-sample error</a></li>
-  <li><a href="#example-linear-regression" id="toc-example-linear-regression" class="nav-link" data-scroll-target="#example-linear-regression">Example Linear Regression</a></li>
+  <li><a href="#lecture-1-basic-concepts-and-definitions" id="toc-lecture-1-basic-concepts-and-definitions" class="nav-link active" data-scroll-target="#lecture-1-basic-concepts-and-definitions">Lecture 1: Basic concepts and definitions</a>
+  <ul class="collapse">
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes:</a></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a></li>
+  <li><a href="#inference-vs-prediction" id="toc-inference-vs-prediction" class="nav-link" data-scroll-target="#inference-vs-prediction">Inference vs Prediction</a>
+  <ul class="collapse">
+  <li><a href="#why-estimate-f" id="toc-why-estimate-f" class="nav-link" data-scroll-target="#why-estimate-f">Why estimate <span class="math inline">\(f\)</span>?</a></li>
+  </ul></li>
+  <li><a href="#trainingtest-split" id="toc-trainingtest-split" class="nav-link" data-scroll-target="#trainingtest-split">Training/test split</a></li>
+  <li><a href="#out-of-sample-prediction-error-in-regression" id="toc-out-of-sample-prediction-error-in-regression" class="nav-link" data-scroll-target="#out-of-sample-prediction-error-in-regression">Out-of-sample prediction error in regression</a>
+  <ul class="collapse">
+  <li><a href="#why-do-we-care-about-estimating-out-of-sample-error" id="toc-why-do-we-care-about-estimating-out-of-sample-error" class="nav-link" data-scroll-target="#why-do-we-care-about-estimating-out-of-sample-error">Why do we care about estimating out-of-sample error?</a></li>
+  </ul></li>
+  <li><a href="#estimating-the-prediction-error" id="toc-estimating-the-prediction-error" class="nav-link" data-scroll-target="#estimating-the-prediction-error">Estimating the prediction error</a>
+  <ul class="collapse">
+  <li><a href="#how-about-estimating-prediction-error-with-in-sample-training-error" id="toc-how-about-estimating-prediction-error-with-in-sample-training-error" class="nav-link" data-scroll-target="#how-about-estimating-prediction-error-with-in-sample-training-error">How about estimating prediction error with in-sample (training) error?</a></li>
+  </ul></li>
+  <li><a href="#example-linear-regression" id="toc-example-linear-regression" class="nav-link" data-scroll-target="#example-linear-regression">Example: Linear Regression</a>
+  <ul class="collapse">
+  <li><a href="#reminder" id="toc-reminder" class="nav-link" data-scroll-target="#reminder">Reminder</a></li>
+  <li><a href="#the-biasvariance-tradeoff" id="toc-the-biasvariance-tradeoff" class="nav-link" data-scroll-target="#the-biasvariance-tradeoff">The Bias–variance tradeoff</a></li>
+  <li><a href="#example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" id="toc-example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" class="nav-link" data-scroll-target="#example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship">Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -211,7 +270,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lecture 1: Basic concepts and definitions</h1>
+<h1 class="title">Estimation of out-of-sample prediction error in regression</h1>
 </div>
 
 
@@ -228,29 +287,217 @@ window.Quarto = {
 </header>
 
 
+<section id="lecture-1-basic-concepts-and-definitions" class="level1">
+<h1>Lecture 1: Basic concepts and definitions</h1>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes:</h2>
+<p>By the end of this lectures students should be able to:</p>
+<ul>
+<li>understand the difference between inference and prediction in regression (reminder)</li>
+<li>understand the training/test data split</li>
+<li>understand the difference between training (in-sample) and test (out-of-sample) prediction errors and define them</li>
+<li>understand the imporance of out-of-sample prediction error</li>
+<li>use Python to estimate out-of-sample prediction error via (in-sample) training error in linear regression given the training data</li>
+<li>understand the draw back of estimating the out-of-sample prediction error via training error</li>
+<li>understand the Bias-Variance Trade-Off</li>
+</ul>
+</section>
 <section id="regression" class="level2">
-<h2 class="anchored" data-anchor-id="regression">Regression:</h2>
-<p>We observe a quantitative response <span class="math inline">\(Y\)</span> and <span class="math inline">\(p\)</span> diferent predictors, <span class="math inline">\(X1, X2,...,Xp\)</span>. We assume that there is some relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X = (X1, X2,...,Xp)\)</span>, which can be written in the very general form as $Y = f(X) +$, where <span class="math inline">\(f\)</span> is some fxed but unknown function of <span class="math inline">\(X_1,...,X_p\)</span>, and <span class="math inline">\(\epsilon\)</span> is a random error term, which is independent of <span class="math inline">\(X\)</span> and has mean zero. When <span class="math inline">\(Y\)</span> is qualitative, we can this a regression problem.</p>
+<h2 class="anchored" data-anchor-id="regression">Regression</h2>
+<ul>
+<li><p>We have <span class="math inline">\(n\)</span> data points with <span class="math inline">\(p\)</span> different predictors: <span class="math inline">\(X = (X_1, X_2,...,X_p)\)</span> and a response <span class="math inline">\(Y\)</span>, which are independent samples from some distribution.</p></li>
+<li><p>We assume that there is some relationship between which can be written as <span class="math display">\[Y = f(X) + \epsilon,\]</span> where <span class="math inline">\(f\)</span> is some fixed but unknown function of <span class="math inline">\(X_1,...,X_p\)</span>, and <span class="math inline">\(\epsilon\)</span> is a random error term, which is independent of <span class="math inline">\(X\)</span> and has mean zero.</p></li>
+<li><p>Our goal is to <strong>estimate</strong> <span class="math inline">\(f\)</span> via another function called <span class="math inline">\(\hat{f}\)</span>.</p></li>
+<li><p>When <span class="math inline">\(Y\)</span> is qualitative, we have a <strong>regression</strong> problem (and when it is qualitative, we have a <strong>classification</strong> problem).</p></li>
+</ul>
 </section>
 <section id="inference-vs-prediction" class="level2">
-<h2 class="anchored" data-anchor-id="inference-vs-prediction">Inference VS Prediction</h2>
-<p><strong>Inference</strong>: Focuses on finding the relationship and association between predictors and reponse</p>
-<p><strong>Prediction</strong>: Focuses on finding <span class="math inline">\(\hat(Y)\)</span> for an unseen <span class="math inline">\(X\)</span>.</p>
+<h2 class="anchored" data-anchor-id="inference-vs-prediction">Inference vs Prediction</h2>
+<section id="why-estimate-f" class="level3">
+<h3 class="anchored" data-anchor-id="why-estimate-f">Why estimate <span class="math inline">\(f\)</span>?</h3>
+<ul>
+<li><p><strong>Inference</strong>: Focuses on identifying relationships and associations between predictors and the response.</p></li>
+<li><p><strong>Prediction</strong>: Focuses on estimating the response for newly unseen predictors.</p></li>
+</ul>
+<p>Our focus here is on <strong>prediction</strong>. But how do we know how good we are at this task?</p>
 </section>
-<section id="mean-squared-error-mse" class="level2">
-<h2 class="anchored" data-anchor-id="mean-squared-error-mse">mean squared error (MSE)</h2>
 </section>
-<section id="out-of-sample-error" class="level2">
-<h2 class="anchored" data-anchor-id="out-of-sample-error">out-of-sample error</h2>
-<p><span class="math inline">\(E(Y^*−\hat{Y}^*)^22\)</span></p>
+<section id="trainingtest-split" class="level2">
+<h2 class="anchored" data-anchor-id="trainingtest-split">Training/test split</h2>
+<p>When it comes to prediction, we want to work with two different datasets: <strong>training and test (aka out-of-sample)</strong>. The reason for this is that we would then consider a training phase, during which the training data is used to fit (or train) the model, and a testing phase, where the model’s performance is evaluated using the test dataset, which it has never seen during training. This evaluation helps us determine how well the model predicts responses for new, unseen data. From now on, we are going to use <span class="math inline">\(X, Y\)</span> to denote the training data, and <span class="math inline">\(X^*, Y^*\)</span> to denote the test data. We therefore can define the prediciton task more formally by defining it as estimating the regression function <span class="math inline">\(\hat{f}\)</span> as</p>
+<p><span class="math display">\[\hat{Y^*} = \hat{f}(X^*)\]</span></p>
+<p>for an unseen <span class="math inline">\(X^*\)</span>, where <span class="math inline">\(X^*, Y^*\)</span> are sampled from the same distribution as <span class="math inline">\(X, Y\)</span></p>
 </section>
-<section id="in-sample-error" class="level2">
-<h2 class="anchored" data-anchor-id="in-sample-error">in-sample error</h2>
+<section id="out-of-sample-prediction-error-in-regression" class="level2">
+<h2 class="anchored" data-anchor-id="out-of-sample-prediction-error-in-regression">Out-of-sample prediction error in regression</h2>
+<p>For new test data <span class="math inline">\(X^*, Y^*\)</span> sampled from the same distribution as the trainign data, we can defined the following error term called <strong>out-of-sample prediction error</strong> or <strong>prediction error</strong> in regression: <span class="math display">\[\mathbb{E}(Y^*−\hat{Y}^*)^2 = \mathbb{E}(Y^*−\hat{f}(X^*))^2,\]</span> where the expectation is taken over the training data <span class="math inline">\(X, Y\)</span>, and test data <span class="math inline">\(X^*, Y^*\)</span>.</p>
+<section id="why-do-we-care-about-estimating-out-of-sample-error" class="level3">
+<h3 class="anchored" data-anchor-id="why-do-we-care-about-estimating-out-of-sample-error">Why do we care about estimating out-of-sample error?</h3>
+<ul>
+<li>To <strong>evalute</strong> the quality of predicition in our model,</li>
+<li>To be able to <strong>minimize</strong> the error for better prediction.</li>
+</ul>
+<hr>
+<div class="activity">
+<div class="activity-header">
+<p>Activity: In-class discussion</p>
+</div>
+<div class="activity-container">
+<ul>
+<li>Can we ever predict <span class="math inline">\(Y^*\)</span> from <span class="math inline">\(X^*\)</span> with zero prediction error? Discuss with your neighbors and report back</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="estimating-the-prediction-error" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-the-prediction-error">Estimating the prediction error</h2>
+<p>In practice, we can not use the test data <span class="math inline">\(X^*\)</span> and <span class="math inline">\(Y^*\)</span> to estimate the prediction error during the training phase because</p>
+<ul>
+<li>in many cases, there is no test data,</li>
+<li>even if there is, we are not allowed to use it during the training phase.</li>
+</ul>
+<p>Therefore, we can not directly calculate the prediction error, instead we need a method to estimate this quantity using our training data.</p>
+<section id="how-about-estimating-prediction-error-with-in-sample-training-error" class="level3">
+<h3 class="anchored" data-anchor-id="how-about-estimating-prediction-error-with-in-sample-training-error">How about estimating prediction error with in-sample (training) error?</h3>
+<p>In the regression setting, the most commonly-used measure for the quality of fit is the mean squared error (MSE), given by</p>
+<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}(x_i))^2\]</span></p>
+<p>Note that <span class="math inline">\(Y= (y_1,y_2,...,y_n)\)</span>, <span class="math inline">\(X = (x_1,...,x_n)\)</span> and <span class="math inline">\(x_i = (x_{i1}, x_{i2},...,x_{ip})^T\)</span>.</p>
+<p>Can we use this MSE as an estimate for prediction error?</p>
+<ul>
+<li>This approach usually gives an optimistic estimate of the prediction error. This is not suprising because when training our model to calculate <span class="math inline">\(\hat{f}\)</span>, we are minize this error during the process.</li>
+</ul>
+</section>
 </section>
 <section id="example-linear-regression" class="level2">
-<h2 class="anchored" data-anchor-id="example-linear-regression">Example Linear Regression</h2>
+<h2 class="anchored" data-anchor-id="example-linear-regression">Example: Linear Regression</h2>
+<section id="reminder" class="level3">
+<h3 class="anchored" data-anchor-id="reminder">Reminder</h3>
+<p>In linear regression, we have:</p>
+<p><span class="math display">\[f(X) = \beta_0 + \beta_1 X_1 +  \beta_2 X_2 + ··· + \beta_p X_p,\]</span></p>
+<p>and our goal is to find <span class="math inline">\(\beta_0, \dots , \beta_p\)</span> . The most common approach to fit this linear model is using the the least squares method, which basically minimizes the MSE of the training test.</p>
+<p>Therefore, after computing <span class="math inline">\(\hat{f}\)</span> through the training phase. So, given new <span class="math inline">\(X^*\)</span>,</p>
+<p><span class="math display">\[\hat{Y}^* =  \hat{\beta_0} + \hat{\beta_1} X^*_1 +  \hat{\beta_2} X^*_2 + ··· + \hat{\beta_p} X^*_p,\]</span></p>
+<p>and we can estimate the prediction error by the training error:</p>
+<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2\]</span></p>
+<p>Note that <span class="math inline">\(Y= (y_1,y_2,...,y_n)\)</span> and <span class="math inline">\(\hat{Y}= (\hat{y}_1,...,\hat{y}_n)\)</span>.</p>
+<div class="activity">
+<div class="activity-header">
+<p>Activity: Training a Linear Regression Model</p>
+</div>
+<div class="activity-container">
+<ul>
+<li>Use the following code to generate a training and test dataset:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameters</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate training data</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(np.random.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, n)).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.random.randn(n)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate test data</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>x_s <span class="op">=</span> np.sort(np.random.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, n)).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>y_s <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x_s <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.random.randn(n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, we want to let’s fit a Linear Regression model to this data, find the erros, and plot the result. You can use the following code to do so:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Train a simple linear model</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lm_1 <span class="op">=</span> LinearRegression()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>lm_1.fit(x, y)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>yhat_1 <span class="op">=</span> lm_1.predict(x)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>y_s_hat_1 <span class="op">=</span> lm_1.predict(x_s)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute errors</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>train_err_1 <span class="op">=</span> np.mean((y <span class="op">-</span> yhat_1) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>test_err_1 <span class="op">=</span> np.mean((y_s <span class="op">-</span> y_s_hat_1) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up plotting</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Define axis limits</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>xlim <span class="op">=</span> (<span class="bu">min</span>(np.<span class="bu">min</span>(x), np.<span class="bu">min</span>(x_s)), <span class="bu">max</span>(np.<span class="bu">max</span>(x), np.<span class="bu">max</span>(x_s)))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ylim <span class="op">=</span> (<span class="bu">min</span>(np.<span class="bu">min</span>(y), np.<span class="bu">min</span>(y_s)), <span class="bu">max</span>(np.<span class="bu">max</span>(y), np.<span class="bu">max</span>(y_s)))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot training data</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].scatter(x, y, label<span class="op">=</span><span class="st">"Training Data"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(x, yhat_1, color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Fitted Line"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlim(xlim)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim(ylim)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Training data"</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].text(<span class="dv">0</span>, <span class="op">-</span><span class="dv">6</span>, <span class="ss">f"Training error: </span><span class="sc">{</span>train_err_1<span class="sc">:.3f}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot test data</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].scatter(x_s, y_s, label<span class="op">=</span><span class="st">"Test Data"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(x_s, y_s_hat_1, color<span class="op">=</span><span class="st">'green'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Fitted Line"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlim(xlim)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylim(ylim)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Test data"</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].text(<span class="dv">0</span>, <span class="op">-</span><span class="dv">6</span>, <span class="ss">f"Test error: </span><span class="sc">{</span>test_err_1<span class="sc">:.3f}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plots</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Try that for 10 different random seeds and report back.</p>
+</div>
+</div>
+<hr>
+<p>Example of an output:</p>
+<div id="aa6e66a1" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect1_files/figure-html/cell-2-output-1.png" width="792" height="357" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-biasvariance-tradeoff" class="level3">
+<h3 class="anchored" data-anchor-id="the-biasvariance-tradeoff">The Bias–variance tradeoff</h3>
+<p>How about if we increase the complexity of our model?</p>
+<div id="6b6136fd" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect1_files/figure-html/cell-3-output-1.png" width="792" height="357" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interestingly, it can be shown that the <strong>prediction error</strong> follows the equation:</p>
+<p><span class="math display">\[
+\mathbb{E} \big( Y^* − \hat{f}(X^*) \big)^2 = \text{Var}(\hat{f}(X^*)) + \big[ \text{Bias}(\hat{f}(X^*)) \big]^2 + \text{Var}(\epsilon)
+\]</span></p>
+<p>In this equation, <span class="math inline">\(Var(\epsilon)\)</span> represents the <strong>irreducible error</strong>, which is independent of the data. This means that no matter how good our model is, the <strong>prediction error</strong> can never be lower than this variance.</p>
+<p>However, the prediction error also consists of a <strong>bias</strong> term and a <strong>variance</strong> term, both of which depend on the data. The <strong>variance</strong> measures how much <span class="math inline">\(\hat{f}(X^*)\)</span> would change if we used a different training dataset. If variance is high, small changes in the training data result in large changes in <span class="math inline">\(\hat{f}\)</span>, leading to <strong>overfitting</strong>.</p>
+<p>The <strong>bias</strong> term represents the error introduced by our choice of model. If we use a very simple model, the bias might be high because it is unlikely that the true data-generating process follows such a simplistic structure. This results in <strong>underfitting</strong>.</p>
+<p>As a general rule, <strong>more flexible models</strong> tend to have <strong>higher variance</strong> but <strong>lower bias</strong>, while <strong>simpler models</strong> have <strong>higher bias</strong> but <strong>lower variance</strong>. This fundamental trade-off between bias and variance is known as the <strong>bias-variance trade-off</strong>.</p>
+<p>In practice, we often cannot explicitly compute the prediction error, bias, or variance, but we should always keep the <strong>bias-variance trade-off</strong> in mind when choosing and evaluating models.</p>
+</section>
+<section id="example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" class="level3">
+<h3 class="anchored" data-anchor-id="example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship">Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship</h3>
+<div id="da5127d9" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect1_files/figure-html/cell-4-output-1.png" width="659" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -336,8 +583,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -448,7 +693,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -674,6 +918,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Learning outcomes/Outline">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Learning outcomes/Outline</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./lect2.html" class="pagination-link" aria-label="Lecture 2: Cross-validation">
+        <span class="nav-page-text">Lecture 2: Cross-validation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

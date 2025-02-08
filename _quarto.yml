@@ -8,11 +8,14 @@ website:
     right:
       - icon: github
         href: https://github.com/hezar1000/lesson_plan
-        aria-label: GitHub
+        aria-label: Website
+      - icon: info-circle
+        href: https://www.cs.ubc.ca/~hzarkoob/
+        aria-label: Website
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      # - about.qmd
 
   open-graph: true
   twitter-card: true
@@ -29,19 +32,25 @@ website:
     style: "docked"
     search: true
     contents:
-      - text: "Learning outcomes"
+      - text: "Learning outcomes/Outline"
         href: index.qmd
-      - text: "Lecture 1: Intro"
-        href: index.qmd
-      - text: "Lecture 2: Cross Validation"
-        href: index.qmd
+      - text: "Lecture 1: Basics"
+        href: lect1.qmd
+      - text: "Lecture 2: Cross-validation"
+        href: lect2.qmd
+      - text: "References"
+        href: ref.qmd
 
 
 format:
   html:
     theme: cosmo
-    css: styles.css
+    css: custom.css
     toc: true
 
+editor:
+  render-on-save: true
+  markdown:
+    wrap: sentence
 
 
