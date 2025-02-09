@@ -207,7 +207,11 @@ window.Quarto = {
   <ul>
   <li><a href="#assumptions-about-students" id="toc-assumptions-about-students" class="nav-link active" data-scroll-target="#assumptions-about-students">Assumptions about students</a></li>
   <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
-  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline">Outline</a></li>
+  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline">Outline</a>
+  <ul class="collapse">
+  <li><a href="#lecture-1-basics" id="toc-lecture-1-basics" class="nav-link" data-scroll-target="#lecture-1-basics">Lecture 1: Basics</a></li>
+  <li><a href="#lecture-2-cross-validation" id="toc-lecture-2-cross-validation" class="nav-link" data-scroll-target="#lecture-2-cross-validation">Lecture 2: Cross-validation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -241,7 +245,7 @@ window.Quarto = {
 <li>have taken courses in statistical learning but have mostly focused on inference rather than prediction.<br>
 </li>
 <li>are comfortable writing code in Python and have used libraries such as <code>numpy</code>, <code>pandas</code>, <code>matplotlib</code>, and <code>sklearn</code> in previous courses (e.g., to fit a linear regression model) but have not used them for more advanced tasks such as cross-validation.</li>
-<li>are comfortable running Python code in a jupyter lab enviroment on their own.</li>
+<li>are comfortable with running Python code in a jupyter lab environment on their own.</li>
 <li>are familiar with the matrix notation used in statistical learning.</li>
 </ul>
 </section>
@@ -249,20 +253,17 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
 <p>By the end of this lesson, students should be able to:</p>
 <ul>
-<li>Indentify the difference between inference and prediction in regression.<br>
-</li>
-<li>Understand the training/test/validation data split</li>
-<li>Define out-of-sample prediction error in theory and identify its importance.<br>
-</li>
-<li>Use Python to estimate out-of-sample prediction error via cross-validation given training data .<br>
-</li>
-<li>Understand the Bias-Variance Trade-Off and it relationship to prediction error.</li>
+<li>Identify the difference between <strong>inference</strong> and <strong>prediction</strong> in regression.</li>
+<li>Understand the <strong>training/test/validation data split</strong>.</li>
+<li>Define out-of-sample prediction error and <strong>explain</strong> its importance.</li>
+<li>Use Python to estimate out-of-sample prediction error via <strong>cross-validation</strong> given training data.</li>
+<li>Understand the <strong>Bias-Variance Trade-Off</strong> and its relationship to prediction error.</li>
 </ul>
 </section>
 <section id="outline" class="level2">
 <h2 class="anchored" data-anchor-id="outline">Outline</h2>
-<ul>
-<li>Lecture 1: Basics
+<section id="lecture-1-basics" class="level3">
+<h3 class="anchored" data-anchor-id="lecture-1-basics">Lecture 1: Basics</h3>
 <ul>
 <li>Regression definition</li>
 <li>Inference vs Prediction</li>
@@ -271,28 +272,28 @@ window.Quarto = {
 <ul>
 <li>Definition</li>
 <li>Why do we care about estimating out-of-sample error?</li>
-<li>In-class discussion: can we ever make a prediction with zero prediction error?
+<li>In-class discussion: Can we ever make a prediction with zero prediction error?
 <ul>
 <li>Goals:
 <ul>
-<li>give students a chance to digest and reflect on the topics covers so far,</li>
-<li>remind them of reducible and irreducible error</li>
+<li>Give students a chance to digest and reflect on the topics covered so far</li>
+<li>Remind them of reducible and irreducible error</li>
 </ul></li>
 </ul></li>
 </ul></li>
 <li>Estimating the prediction error
 <ul>
 <li>Motivation</li>
-<li>First approach: estimating prediction error with in-sample (training) error
+<li>First approach: Estimating prediction error with in-sample (training) error
 <ul>
 <li>Example: Linear Regression
 <ul>
-<li>In-class live-coding activity: calculate and compare the training and test errors using different seeds.
+<li>In-class live-coding activity: Calculate and compare the training and test errors using different seeds.
 <ul>
 <li>Goals:
 <ul>
-<li>give students a chance to play with training and test errors on simple regression model</li>
-<li>give thema chance to observe how different they can be.</li>
+<li>Give students a chance to play with training and test errors on a simple regression model</li>
+<li>Give them a chance to observe how different they can be</li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -301,17 +302,20 @@ window.Quarto = {
 <li>The Bias-Variance Trade-Off
 <ul>
 <li>Motivating example: 10th order polynomial regression</li>
+<li>Overfitting vs underfitting</li>
 <li>Definition</li>
 </ul></li>
-</ul></li>
-<li>Lecture 2: Cross validation
+</ul>
+</section>
+<section id="lecture-2-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="lecture-2-cross-validation">Lecture 2: Cross-validation</h3>
 <ul>
 <li>Estimating the prediction error (continued)
 <ul>
 <li>Splitting the training data to get a validation set</li>
 <li>Second approach: A single held-out point
 <ul>
-<li>In-class discussion: Discussion of estimate for the out-of-sample prediction error via a single held-out point
+<li>In-class discussion: Discussion of the estimate for the out-of-sample prediction error via a single held-out point
 <ul>
 <li>Goals:
 <ul>
@@ -323,19 +327,27 @@ window.Quarto = {
 <li>Third approach: Cross-validation
 <ul>
 <li>LOOCV</li>
-<li>K-fold cross-calidation</li>
+<li>K-fold cross-validation</li>
 </ul></li>
-<li>Implementing cross-valication in Python
+<li>Implementing cross-validation in Python
 <ul>
 <li>How to perform LOOCV in Python</li>
 <li>How to perform <span class="math inline">\(K\)</span>-fold cross-validation in Python</li>
 </ul></li>
+<li>In-class live-coding activity: <span class="math inline">\(K\)</span>-fold cross-validation
+<ul>
+<li>Goals:
+<ul>
+<li>Let students play with <span class="math inline">\(K\)</span>-fold cross-validation and get comfortable with the idea</li>
+<li>Get a sense for Bias-Variance Trade-Off for <span class="math inline">\(K\)</span>-Fold cross-validation via an example</li>
 </ul></li>
-<li>Bias-Variance Trade-Off for k-Fold cross-validation</li>
 </ul></li>
+</ul></li>
+<li>Bias-Variance Trade-Off for K-fold cross-validation</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

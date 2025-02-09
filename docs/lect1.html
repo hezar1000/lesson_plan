@@ -259,7 +259,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#reminder" id="toc-reminder" class="nav-link" data-scroll-target="#reminder">Reminder</a></li>
   <li><a href="#the-biasvariance-tradeoff" id="toc-the-biasvariance-tradeoff" class="nav-link" data-scroll-target="#the-biasvariance-tradeoff">The Bias–variance tradeoff</a></li>
-  <li><a href="#example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" id="toc-example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" class="nav-link" data-scroll-target="#example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship">Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -291,24 +290,28 @@ window.Quarto = {
 <h1>Lecture 1: Basic concepts and definitions</h1>
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes:</h2>
-<p>By the end of this lectures students should be able to:</p>
+<p>By the end of this lecture, students should be able to:</p>
 <ul>
-<li>understand the difference between inference and prediction in regression (reminder)</li>
-<li>understand the training/test data split</li>
-<li>understand the difference between training (in-sample) and test (out-of-sample) prediction errors and define them</li>
-<li>understand the imporance of out-of-sample prediction error</li>
-<li>use Python to estimate out-of-sample prediction error via (in-sample) training error in linear regression given the training data</li>
-<li>understand the draw back of estimating the out-of-sample prediction error via training error</li>
-<li>understand the Bias-Variance Trade-Off</li>
+<li>Differentiate between <strong>inference</strong> and <strong>prediction</strong> in regression at a conceptual level.<br>
+</li>
+<li>Understand the reasoning behind <strong>splitting data</strong> into <strong>training and test sets</strong> for model evaluation.<br>
+</li>
+<li>Distinguish between <strong>training (in-sample) error</strong> and <strong>test (out-of-sample) error</strong>, and explain their significance.<br>
+</li>
+<li>Use Python to estimate <strong>out-of-sample prediction error</strong> using <strong>training error</strong> in linear regression.<br>
+</li>
+<li>Define and identify the concepts of <strong>overfitting</strong> and <strong>underfitting</strong> in predictive modeling.<br>
+</li>
+<li>Explain the <strong>Bias-Variance Trade-Off</strong> and its implications for model performance.</li>
 </ul>
 </section>
 <section id="regression" class="level2">
 <h2 class="anchored" data-anchor-id="regression">Regression</h2>
 <ul>
-<li><p>We have <span class="math inline">\(n\)</span> data points with <span class="math inline">\(p\)</span> different predictors: <span class="math inline">\(X = (X_1, X_2,...,X_p)\)</span> and a response <span class="math inline">\(Y\)</span>, which are independent samples from some distribution.</p></li>
-<li><p>We assume that there is some relationship between which can be written as <span class="math display">\[Y = f(X) + \epsilon,\]</span> where <span class="math inline">\(f\)</span> is some fixed but unknown function of <span class="math inline">\(X_1,...,X_p\)</span>, and <span class="math inline">\(\epsilon\)</span> is a random error term, which is independent of <span class="math inline">\(X\)</span> and has mean zero.</p></li>
+<li><p>We have <span class="math inline">\(n\)</span> data points with <span class="math inline">\(p\)</span> different predictors: <span class="math inline">\(X = (X_1, X_2, ..., X_p)\)</span> and a response <span class="math inline">\(Y\)</span>, which are independent samples from some distribution.</p></li>
+<li><p>We assume that there is some relationship between them, which can be written as <span class="math display">\[Y = f(X) + \epsilon,\]</span> where <span class="math inline">\(f\)</span> is some fixed but unknown function of <span class="math inline">\(X_1, ..., X_p\)</span>, and <span class="math inline">\(\epsilon\)</span> is a random error term, which is independent of <span class="math inline">\(X\)</span> and has mean zero.</p></li>
 <li><p>Our goal is to <strong>estimate</strong> <span class="math inline">\(f\)</span> via another function called <span class="math inline">\(\hat{f}\)</span>.</p></li>
-<li><p>When <span class="math inline">\(Y\)</span> is qualitative, we have a <strong>regression</strong> problem (and when it is qualitative, we have a <strong>classification</strong> problem).</p></li>
+<li><p>When <span class="math inline">\(Y\)</span> is quantitative, we have a <strong>regression</strong> problem (and when it is qualitative, we have a <strong>classification</strong> problem).</p></li>
 </ul>
 </section>
 <section id="inference-vs-prediction" class="level2">
@@ -337,6 +340,7 @@ window.Quarto = {
 <li>To <strong>evalute</strong> the quality of predicition in our model,</li>
 <li>To be able to <strong>minimize</strong> the error for better prediction.</li>
 </ul>
+<p>Example: Imagine to you’ve trained a model to predict stock market. Think about how much you care about you model being accurate in the unseen future.</p>
 <hr>
 <div class="activity">
 <div class="activity-header">
@@ -353,20 +357,20 @@ window.Quarto = {
 </section>
 <section id="estimating-the-prediction-error" class="level2">
 <h2 class="anchored" data-anchor-id="estimating-the-prediction-error">Estimating the prediction error</h2>
-<p>In practice, we can not use the test data <span class="math inline">\(X^*\)</span> and <span class="math inline">\(Y^*\)</span> to estimate the prediction error during the training phase because</p>
+<p>In practice, we cannot use the test data <span class="math inline">\(X^*\)</span> and <span class="math inline">\(Y^*\)</span> to estimate the prediction error during the training phase because:</p>
 <ul>
-<li>in many cases, there is no test data,</li>
-<li>even if there is, we are not allowed to use it during the training phase.</li>
+<li>In many cases, there is no test data.</li>
+<li>Even if there is, we are not allowed to use it during the training phase.</li>
 </ul>
-<p>Therefore, we can not directly calculate the prediction error, instead we need a method to estimate this quantity using our training data.</p>
+<p>Therefore, we cannot directly calculate the prediction error; instead, we need a method to estimate this quantity using our training data.</p>
 <section id="how-about-estimating-prediction-error-with-in-sample-training-error" class="level3">
 <h3 class="anchored" data-anchor-id="how-about-estimating-prediction-error-with-in-sample-training-error">How about estimating prediction error with in-sample (training) error?</h3>
 <p>In the regression setting, the most commonly-used measure for the quality of fit is the mean squared error (MSE), given by</p>
 <p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}(x_i))^2\]</span></p>
-<p>Note that <span class="math inline">\(Y= (y_1,y_2,...,y_n)\)</span>, <span class="math inline">\(X = (x_1,...,x_n)\)</span> and <span class="math inline">\(x_i = (x_{i1}, x_{i2},...,x_{ip})^T\)</span>.</p>
+<p>Note that <span class="math inline">\(Y= (y_1,y_2,...,y_n)\)</span>, <span class="math inline">\(X = (x_1,...,x_n)\)</span>, and <span class="math inline">\(x_i = (x_{i1}, x_{i2},...,x_{ip})^T\)</span>.</p>
 <p>Can we use this MSE as an estimate for prediction error?</p>
 <ul>
-<li>This approach usually gives an optimistic estimate of the prediction error. This is not suprising because when training our model to calculate <span class="math inline">\(\hat{f}\)</span>, we are minize this error during the process.</li>
+<li>This approach usually gives an optimistic estimate of the prediction error. This is not surprising because when training our model to calculate <span class="math inline">\(\hat{f}\)</span>, we are minimizing this error during the process.</li>
 </ul>
 </section>
 </section>
@@ -375,13 +379,13 @@ window.Quarto = {
 <section id="reminder" class="level3">
 <h3 class="anchored" data-anchor-id="reminder">Reminder</h3>
 <p>In linear regression, we have:</p>
-<p><span class="math display">\[f(X) = \beta_0 + \beta_1 X_1 +  \beta_2 X_2 + ··· + \beta_p X_p,\]</span></p>
-<p>and our goal is to find <span class="math inline">\(\beta_0, \dots , \beta_p\)</span> . The most common approach to fit this linear model is using the the least squares method, which basically minimizes the MSE of the training test.</p>
-<p>Therefore, after computing <span class="math inline">\(\hat{f}\)</span> through the training phase. So, given new <span class="math inline">\(X^*\)</span>,</p>
-<p><span class="math display">\[\hat{Y}^* =  \hat{\beta_0} + \hat{\beta_1} X^*_1 +  \hat{\beta_2} X^*_2 + ··· + \hat{\beta_p} X^*_p,\]</span></p>
-<p>and we can estimate the prediction error by the training error:</p>
+<p><span class="math display">\[f(X) = \beta_0 + \beta_1 X_1 +  \beta_2 X_2 + \dots + \beta_p X_p,\]</span></p>
+<p>and our goal is to find <span class="math inline">\(\beta_0, \dots , \beta_p\)</span>. The most common approach to fit this linear model is using the least squares method, which essentially minimizes the MSE of the training set.</p>
+<p>Therefore, after computing <span class="math inline">\(\hat{f}\)</span> through the training phase, given new <span class="math inline">\(X^*\)</span>, we have:</p>
+<p><span class="math display">\[\hat{Y}^* = \hat{\beta_0} + \hat{\beta_1} X^*_1 + \hat{\beta_2} X^*_2 + \dots + \hat{\beta_p} X^*_p,\]</span></p>
+<p>and we can estimate the prediction error using the training error:</p>
 <p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2\]</span></p>
-<p>Note that <span class="math inline">\(Y= (y_1,y_2,...,y_n)\)</span> and <span class="math inline">\(\hat{Y}= (\hat{y}_1,...,\hat{y}_n)\)</span>.</p>
+<p>Note that <span class="math inline">\(Y = (y_1, y_2, \dots, y_n)\)</span> and <span class="math inline">\(\hat{Y} = (\hat{y}_1, \dots, \hat{y}_n)\)</span>.</p>
 <div class="activity">
 <div class="activity-header">
 <p>Activity: Training a Linear Regression Model</p>
@@ -451,7 +455,7 @@ window.Quarto = {
 </div>
 <hr>
 <p>Example of an output:</p>
-<div id="aa6e66a1" class="cell" data-execution_count="1">
+<div id="964d9a25" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -464,7 +468,7 @@ window.Quarto = {
 <section id="the-biasvariance-tradeoff" class="level3">
 <h3 class="anchored" data-anchor-id="the-biasvariance-tradeoff">The Bias–variance tradeoff</h3>
 <p>How about if we increase the complexity of our model?</p>
-<div id="6b6136fd" class="cell" data-execution_count="2">
+<div id="9505fbf7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -479,13 +483,17 @@ window.Quarto = {
 \]</span></p>
 <p>In this equation, <span class="math inline">\(Var(\epsilon)\)</span> represents the <strong>irreducible error</strong>, which is independent of the data. This means that no matter how good our model is, the <strong>prediction error</strong> can never be lower than this variance.</p>
 <p>However, the prediction error also consists of a <strong>bias</strong> term and a <strong>variance</strong> term, both of which depend on the data. The <strong>variance</strong> measures how much <span class="math inline">\(\hat{f}(X^*)\)</span> would change if we used a different training dataset. If variance is high, small changes in the training data result in large changes in <span class="math inline">\(\hat{f}\)</span>, leading to <strong>overfitting</strong>.</p>
+<ul>
+<li>Extreme example of overfitting: A curve that goes through every training datapoint</li>
+</ul>
 <p>The <strong>bias</strong> term represents the error introduced by our choice of model. If we use a very simple model, the bias might be high because it is unlikely that the true data-generating process follows such a simplistic structure. This results in <strong>underfitting</strong>.</p>
+<ul>
+<li>Extreme example of overfitting: A horizontal line</li>
+</ul>
 <p>As a general rule, <strong>more flexible models</strong> tend to have <strong>higher variance</strong> but <strong>lower bias</strong>, while <strong>simpler models</strong> have <strong>higher bias</strong> but <strong>lower variance</strong>. This fundamental trade-off between bias and variance is known as the <strong>bias-variance trade-off</strong>.</p>
-<p>In practice, we often cannot explicitly compute the prediction error, bias, or variance, but we should always keep the <strong>bias-variance trade-off</strong> in mind when choosing and evaluating models.</p>
-</section>
-<section id="example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship" class="level3">
-<h3 class="anchored" data-anchor-id="example-bias-variance-trade-off-in-a-regression-modes-used-to-fit-data-with-quadratic-relationship">Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship</h3>
-<div id="da5127d9" class="cell" data-execution_count="3">
+<p>In practice, as mentioned, we often cannot explicitly compute the prediction error, bias, or variance, so, we should always keep the <strong>bias-variance trade-off</strong> in mind when choosing and evaluating models.</p>
+<p>Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship</p>
+<div id="d58ef0c2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

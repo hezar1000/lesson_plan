@@ -238,16 +238,22 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lecture-2-cross-validation" id="toc-lecture-2-cross-validation" class="nav-link active" data-scroll-target="#lecture-2-cross-validation">Lecture 2: Cross Validation</a>
+  <li><a href="#lecture-2-cross-validation" id="toc-lecture-2-cross-validation" class="nav-link active" data-scroll-target="#lecture-2-cross-validation">Lecture 2: Cross-validation</a>
   <ul class="collapse">
   <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes:</a></li>
-  <li><a href="#splitting-the-training-data" id="toc-splitting-the-training-data" class="nav-link" data-scroll-target="#splitting-the-training-data">Splitting the training data</a></li>
-  <li><a href="#a-single-held-out-point" id="toc-a-single-held-out-point" class="nav-link" data-scroll-target="#a-single-held-out-point">A single held-out point</a></li>
-  <li><a href="#leave-one-out-cross-validation" id="toc-leave-one-out-cross-validation" class="nav-link" data-scroll-target="#leave-one-out-cross-validation">Leave-one-out cross-validation</a></li>
-  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold cross-validation</a></li>
+  <li><a href="#splitting-the-training-data" id="toc-splitting-the-training-data" class="nav-link" data-scroll-target="#splitting-the-training-data">Splitting the Training Data</a></li>
+  <li><a href="#a-single-held-out-point" id="toc-a-single-held-out-point" class="nav-link" data-scroll-target="#a-single-held-out-point">A Single Held-Out Point</a></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a>
+  <ul class="collapse">
+  <li><a href="#leave-one-out-cross-validation" id="toc-leave-one-out-cross-validation" class="nav-link" data-scroll-target="#leave-one-out-cross-validation">Leave-One-Out Cross-validation</a></li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="math inline">\(K\)</span>-Fold Cross-validation</a></li>
+  </ul></li>
+  <li><a href="#bias-variance-trade-off-for-k-fold-cross-validation" id="toc-bias-variance-trade-off-for-k-fold-cross-validation" class="nav-link" data-scroll-target="#bias-variance-trade-off-for-k-fold-cross-validation">Bias-Variance Trade-Off for <span class="math inline">\(K\)</span>-Fold Cross-validation</a></li>
+  <li><a href="#python-implementation" id="toc-python-implementation" class="nav-link" data-scroll-target="#python-implementation">Python implementation</a>
+  <ul class="collapse">
   <li><a href="#how-to-perform-loocv-in-python" id="toc-how-to-perform-loocv-in-python" class="nav-link" data-scroll-target="#how-to-perform-loocv-in-python">How to perform LOOCV in Python</a></li>
   <li><a href="#how-to-perform-k-fold-cross-validation-in-python" id="toc-how-to-perform-k-fold-cross-validation-in-python" class="nav-link" data-scroll-target="#how-to-perform-k-fold-cross-validation-in-python">How to perform <span class="math inline">\(K\)</span>-fold cross-validation in Python</a></li>
-  <li><a href="#bias-variance-trade-off-for-k-fold-cross-validation" id="toc-bias-variance-trade-off-for-k-fold-cross-validation" class="nav-link" data-scroll-target="#bias-variance-trade-off-for-k-fold-cross-validation">Bias-Variance Trade-Off for k-Fold Cross-Validation</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -275,29 +281,34 @@ window.Quarto = {
 
 
 <section id="lecture-2-cross-validation" class="level1">
-<h1>Lecture 2: Cross Validation</h1>
+<h1>Lecture 2: Cross-validation</h1>
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes:</h2>
-<p>By the end of this lecture students should be able to:</p>
+<p>By the end of this lecture, students should be able to:</p>
 <ul>
-<li>Explain why we should split the training data to get a validation set</li>
-<li>Explain the idea behind cross validation in model training on a high level.</li>
-<li>Use Python to estimate out-of-sample prediction error via Leave-One-Out cross-validation (LOOCV) given training data</li>
-<li>Use Python to etimate out-of-sample prediction error via <span class="math inline">\(K\)</span>-Fold cross-validation given training data</li>
-<li>Explain the pros and cons of LOOCV and <span class="math inline">\(K\)</span>-Fold cross-validation when used in regression</li>
-<li>Explain Bias-Variance Trade-Off for <span class="math inline">\(K\)</span>-Fold cross-validation when used in regression</li>
+<li>Explain why splitting the training data to create a <strong>validation set</strong> is important.<br>
+</li>
+<li>Understand the <strong>concept of cross-validation</strong> and its role in model training.<br>
+</li>
+<li>Use Python to estimate <strong>out-of-sample prediction error</strong> using <strong>Leave-One-Out Cross-validation (LOOCV)</strong>.<br>
+</li>
+<li>Use Python to estimate <strong>out-of-sample prediction error</strong> using <strong>k-Fold Cross-validation</strong>.<br>
+</li>
+<li>Compare and contrast the <strong>advantages and disadvantages</strong> of <strong>LOOCV</strong> and <strong>k-Fold Cross-validation</strong> in regression.<br>
+</li>
+<li>Explain the <strong>Bias-Variance Trade-Off</strong> in the context of <strong>k-Fold Cross-validation</strong> for regression models.</li>
 </ul>
 </section>
 <section id="splitting-the-training-data" class="level2">
-<h2 class="anchored" data-anchor-id="splitting-the-training-data">Splitting the training data</h2>
-<p>If we use all of our taining data to fit our regression models, estimating prediction error with in-sample (training) error in essentially the best thing we can do. To avoid this, a common approach to evaluate model perfomance is to split the available data into a (smaller) training set and a validation set. We can then fit our model using only the smaller training set and evaluate its performance by predicting the responses for the validation set. This allows us to simulate the model’s prediction error on unseen data while still having access to the true responses outside the test set.</p>
+<h2 class="anchored" data-anchor-id="splitting-the-training-data">Splitting the Training Data</h2>
+<p>If we use all of our training data to fit our regression models, estimating prediction error with in-sample (training) error is essentially the best thing we can do. To avoid this, a common approach to evaluate model performance is to split the available data into a (smaller) training set and a validation set. We can then fit our model using only the smaller training set and evaluate its performance by predicting the responses for the validation set. This allows us to simulate the model’s prediction error on unseen data while still having access to the true responses outside the test set.</p>
 </section>
 <section id="a-single-held-out-point" class="level2">
-<h2 class="anchored" data-anchor-id="a-single-held-out-point">A single held-out point</h2>
-<p>One way to split the training data to get a validation set is to hold out one of the data points. We can then train the model using the remaining <span class="math inline">\((n−1)\)</span> data points and estimate the prediction error by</p>
+<h2 class="anchored" data-anchor-id="a-single-held-out-point">A Single Held-Out Point</h2>
+<p>One way to split the training data to get a validation set is to hold out one of the data points. We can then train the model using the remaining <span class="math inline">\((n-1)\)</span> data points and estimate the prediction error by</p>
 <p><span class="math display">\[(y_n - \hat{f}^{-n}(x_n))^2,\]</span></p>
-<p>where <span class="math inline">\(\hat{f}^{-n}\)</span> denote the regression function estimate using all by the data point <span class="math inline">\((y_n, x_n)\)</span>.</p>
-<p>However, this estimate highly depends on the chosen point and can be very high variance.</p>
+<p>where <span class="math inline">\(\hat{f}^{-n}\)</span> denotes the regression function estimate using all but the data point <span class="math inline">\((y_n, x_n)\)</span>.</p>
+<p>However, this estimate highly depends on the chosen point and can have very high variance.</p>
 <hr>
 <div class="activity">
 <div class="activity-header">
@@ -310,24 +321,44 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="leave-one-out-cross-validation" class="level2">
-<h2 class="anchored" data-anchor-id="leave-one-out-cross-validation">Leave-one-out cross-validation</h2>
-<p>One way to modify the above approach to reduce the variability is to repeat the above process for every single point and look at the average of error estiamtes, i.e., estiamte the prediction error by</p>
+<section id="cross-validation" class="level2">
+<h2 class="anchored" data-anchor-id="cross-validation">Cross-validation</h2>
+<section id="leave-one-out-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="leave-one-out-cross-validation">Leave-One-Out Cross-validation</h3>
+<p>One way to modify the above approach to reduce the variability is to repeat the process for every single point and look at the average of the error estimates, i.e., estimate the prediction error by</p>
 <p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}^{-i}(x_i))^2.\]</span></p>
-<p>This approach is called ed leave-one-out cross-validation (LOOCV). Notice that we are basically estimating <span class="math inline">\(\mathbb{E}[(y_n - \hat{f}^{-n}(x_n))^2]\)</span> empirically here. Also, since we are repeating training process <span class="math inline">\(n\)</span> times the variance of our prediction is highly reduced, but since the size of our dataset during the training phase is roughly the same size is the original training set, LOOCV increases the computational load by a factor of <span class="math inline">\(n\)</span>.</p>
+<p>This approach is called <strong>leave-one-out cross-validation (LOOCV)</strong>. Notice that we are essentially estimating <span class="math inline">\(\mathbb{E}[(y_n - \hat{f}^{-n}(x_n))^2]\)</span> empirically here. Also, since we are repeating the training process <span class="math inline">\(n\)</span> times, the variance of our prediction is highly reduced. However, since the size of our dataset during the training phase is roughly the same as the original training set, LOOCV increases the computational load by a factor of <span class="math inline">\(n\)</span>.</p>
 </section>
-<section id="k-fold-cross-validation" class="level2">
-<h2 class="anchored" data-anchor-id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-fold cross-validation</h2>
-<p>One further modifcation to Leave-one-out cross-validation is instead of holding out 1 data point at a time and repeat this process <span class="math inline">\(n\)</span> times, slit the training data into <span class="math inline">\(k\)</span> folds <span class="math inline">\(F_1,...,F_k\)</span>, fit our regression model using data from <span class="math inline">\((k-1)\)</span> folds and calculate the error for the <span class="math inline">\(k\)</span>th fold using:</p>
+<section id="k-fold-cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="k-fold-cross-validation"><span class="math inline">\(K\)</span>-Fold Cross-validation</h3>
+<p>A further modification to leave-one-out cross-validation is to, instead of holding out 1 data point at a time and repeating this process <span class="math inline">\(n\)</span> times, split the training data into <span class="math inline">\(k\)</span> folds <span class="math inline">\(F_1, \dots, F_k\)</span>, fit our regression model using data from <span class="math inline">\((k-1)\)</span> folds, and calculate the error for the <span class="math inline">\(k\)</span>th fold using:</p>
 <p><span class="math display">\[\frac{1}{n_k} \sum_{i \in F_k} (y_i - \hat{f}^{-(k)}(x_i))^2,\]</span></p>
-<p>where <span class="math inline">\(n_k = |F_k|\)</span>, and <span class="math inline">\(\hat{f}^{-(k)}\)</span> denotes the regression fuction trained using all folds but the <span class="math inline">\(k\)</span>th one. We can then repeate this process <span class="math inline">\(k\)</span> times to estimate our prediction error by taking over over the error calculated for each fold</p>
-<p><span class="math display">\[\frac{1}{k} \sum_{i=1}^k \frac{1}{n_k} \sum_{i \in F_k} (y_i - \hat{f}^{-(k)}(x_i))^2.\]</span></p>
-<p>This method is called <span class="math inline">\(K\)</span>-fold cross-validation</p>
+<p>where <span class="math inline">\(n_k = |F_k|\)</span>, and <span class="math inline">\(\hat{f}^{-(k)}\)</span> denotes the regression function trained using all folds but the <span class="math inline">\(k\)</span>th one. We can then repeat this process <span class="math inline">\(k\)</span> times to estimate our prediction error by averaging over the errors calculated for each fold:</p>
+<p><span class="math display">\[\frac{1}{k} \sum_{k=1}^k \frac{1}{n_k} \sum_{i \in F_k} (y_i - \hat{f}^{-(k)}(x_i))^2.\]</span></p>
+<p>This method is called <strong><span class="math inline">\(K\)</span>-fold cross-validation</strong>.</p>
+<p>Example: An illustration of 5-fold cross-validation.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="example.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<div style="font-size: 15px;">
+<p>source: <a href="https://python.datasciencebook.ca/classification2.html">https://python.datasciencebook.ca/classification2.html</a></p>
+</div>
 </section>
-<section id="how-to-perform-loocv-in-python" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-perform-loocv-in-python">How to perform LOOCV in Python</h2>
+</section>
+<section id="bias-variance-trade-off-for-k-fold-cross-validation" class="level2">
+<h2 class="anchored" data-anchor-id="bias-variance-trade-off-for-k-fold-cross-validation">Bias-Variance Trade-Off for <span class="math inline">\(K\)</span>-Fold Cross-validation</h2>
+<p>In cross-validation, when <span class="math inline">\(k &lt; n\)</span>, besides the computational advantage of <span class="math inline">\(K\)</span>-fold over LOOCV, there is another important benefit, particularly in the context of estimating the prediction error. Remember that in Lecture 1, we discussed the bias-variance trade-off and how the prediction error consists of both a bias and a variance term.</p>
+<p>Since each iteration of LOOCV uses almost the same data, the outputs are highly correlated, which leads to higher variance compared to <span class="math inline">\(K\)</span>k-fold cross-validation. In <span class="math inline">\(K\)</span>k-fold cross-validation, each fold is relatively less correlated with the others, resulting in a smaller variance. However, note that as we increase the number of folds toward LOOCV (note that when <span class="math inline">\(K = n\)</span>, we have LOOCV), the bias term increases. Therefore, a trade-off exists between bias and variance.</p>
+<p>In practice, using <span class="math inline">\(K=5\)</span> or <span class="math inline">\(K=10\)</span> often provides a moderate balance between bias and variance.</p>
+</section>
+<section id="python-implementation" class="level2">
+<h2 class="anchored" data-anchor-id="python-implementation">Python implementation</h2>
+<section id="how-to-perform-loocv-in-python" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-perform-loocv-in-python">How to perform LOOCV in Python</h3>
 <p>We can run LOOCV in Python by using the function <code>LeaveOneOut</code> from the <code>sklearn</code> library. Here’s an example to illusterate how to do so:</p>
-<div id="68610c3a" class="cell" data-execution_count="1">
+<div id="a46b1eaa" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> LeaveOneOut</span>
@@ -376,10 +407,10 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="how-to-perform-k-fold-cross-validation-in-python" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-perform-k-fold-cross-validation-in-python">How to perform <span class="math inline">\(K\)</span>-fold cross-validation in Python</h2>
+<section id="how-to-perform-k-fold-cross-validation-in-python" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-perform-k-fold-cross-validation-in-python">How to perform <span class="math inline">\(K\)</span>-fold cross-validation in Python</h3>
 <p>We can run LOOCV in Python by using the function <code>KFold</code> from the <code>sklearn</code> library. Here’s an example to illusterate how to do so:</p>
-<div id="3ce87f69" class="cell" data-execution_count="2">
+<div id="87e083d4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
@@ -395,14 +426,14 @@ window.Quarto = {
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(np.random.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, n)).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x.squeeze() <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.random.randn(n)  <span class="co"># Linear relationship with noise</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize 10-Fold Cross-Validation</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize 10-Fold Cross-validation</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Store errors</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> []</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 10-Fold Cross-Validation</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 10-Fold Cross-validation</span></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> train_index, test_index <span class="kw">in</span> kf.split(x):</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Split the data</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    x_train, x_test <span class="op">=</span> x[train_index], x[test_index]</span>
@@ -423,16 +454,140 @@ window.Quarto = {
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>kfold_mse <span class="op">=</span> np.mean(errors)</span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"10-Fold Cross-Validation Mean Squared Error: </span><span class="sc">{</span>kfold_mse<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"10-Fold Cross-validation Mean Squared Error: </span><span class="sc">{</span>kfold_mse<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>10-Fold Cross-Validation Mean Squared Error: 3.3532</code></pre>
+<pre><code>10-Fold Cross-validation Mean Squared Error: 3.3532</code></pre>
 </div>
 </div>
+<hr>
+<div class="activity">
+<div class="activity-header">
+<p>Activity: In-class live-coding exercise</p>
+</div>
+<div class="activity-container">
+<ul>
+<li>Use the following code to generate plots for <span class="math inline">\(K\)</span>-fold cross-validation. Test at least 5 different values for the pair (<span class="math inline">\(K\)</span>, <span class="math inline">\(n\)</span>), and 5 different seeds and report back your observations.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.sort(np.random.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, n)).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x.ravel() <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.random.randn(n)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare cross-validation</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">5</span>  <span class="co"># Number of CV folds</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span>k, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate smooth x values for plotting fitted models</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(<span class="bu">min</span>(x), <span class="bu">max</span>(x), <span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Cross-validation loop</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (train_idx, test_idx) <span class="kw">in</span> <span class="bu">enumerate</span>(kf.split(x), <span class="dv">1</span>):</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Training and test sets</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>   x_train, x_test <span class="op">=</span> x[train_idx], x[test_idx]</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>   y_train, y_test <span class="op">=</span> y[train_idx], y[test_idx]</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Train linear model</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>   lm_1 <span class="op">=</span> LinearRegression()</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>   lm_1.fit(x_train, y_train)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Train 10th-order polynomial model</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>   poly <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>   X_train_poly <span class="op">=</span> poly.fit_transform(x_train)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>   X_test_poly <span class="op">=</span> poly.transform(x_test)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>   XX_poly <span class="op">=</span> poly.transform(xx)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>   lm_10 <span class="op">=</span> LinearRegression()</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>   lm_10.fit(X_train_poly, y_train)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Predictions</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>   y_pred_1 <span class="op">=</span> lm_1.predict(x_test)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>   y_pred_10 <span class="op">=</span> lm_10.predict(X_test_poly)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Compute test errors (MSE)</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>   test_err_1 <span class="op">=</span> np.mean((y_test <span class="op">-</span> y_pred_1) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>   test_err_10 <span class="op">=</span> np.mean((y_test <span class="op">-</span> y_pred_10) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Create figure and axes for side-by-side plots</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>   fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Define colors for points (red for test fold, gray for training data)</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>   colors <span class="op">=</span> np.where(np.isin(np.arange(n), test_idx), <span class="st">'red'</span>, <span class="st">'gray'</span>)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Plot linear model (1st order)</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].scatter(x, y, c<span class="op">=</span>colors, label<span class="op">=</span><span class="st">"Other folds"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].scatter(x[test_idx], y[test_idx], color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="ss">f"Fold </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].plot(xx, lm_1.predict(xx), linestyle<span class="op">=</span><span class="st">"dashed"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"1st Order Fit"</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].set_title(<span class="ss">f"Fold </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> - Linear Model"</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].legend()</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].text(<span class="bu">min</span>(x) <span class="op">+</span> <span class="fl">3.2</span>, <span class="bu">min</span>(y) <span class="op">+</span> <span class="dv">1</span>, <span class="ss">f"Test Error: </span><span class="sc">{</span>test_err_1<span class="sc">:.3f}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Plot 10th order polynomial model</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].scatter(x, y, c<span class="op">=</span>colors, label<span class="op">=</span><span class="st">"Other folds"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].scatter(x[test_idx], y[test_idx], color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="ss">f"Fold </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].plot(xx, lm_10.predict(XX_poly), linestyle<span class="op">=</span><span class="st">"dashed"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"10th Order Fit"</span>)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].set_title(<span class="ss">f"Fold </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> - 10th Order Model"</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].legend()</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].text(<span class="bu">min</span>(x) <span class="op">+</span> <span class="fl">3.2</span>, <span class="bu">min</span>(y) <span class="op">+</span> <span class="dv">1</span>, <span class="ss">f"Test Error: </span><span class="sc">{</span>test_err_10<span class="sc">:.3f}</span><span class="ss">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Ensure consistent axes across subplots</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].set_xlim(<span class="bu">min</span>(x), <span class="bu">max</span>(x))</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].set_xlim(<span class="bu">min</span>(x), <span class="bu">max</span>(x))</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">0</span>].set_ylim(<span class="bu">min</span>(y) <span class="op">-</span> <span class="dv">2</span>, <span class="bu">max</span>(y) <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>   axes[<span class="dv">1</span>].set_ylim(<span class="bu">min</span>(y) <span class="op">-</span> <span class="dv">2</span>, <span class="bu">max</span>(y) <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>   plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Example of an output:</p>
+<div id="8b5c406a" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect2_files/figure-html/cell-4-output-1.png" width="879" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect2_files/figure-html/cell-4-output-2.png" width="879" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect2_files/figure-html/cell-4-output-3.png" width="879" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect2_files/figure-html/cell-4-output-4.png" width="879" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lect2_files/figure-html/cell-4-output-5.png" width="879" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
 </section>
-<section id="bias-variance-trade-off-for-k-fold-cross-validation" class="level2">
-<h2 class="anchored" data-anchor-id="bias-variance-trade-off-for-k-fold-cross-validation">Bias-Variance Trade-Off for k-Fold Cross-Validation</h2>
-
-
 </section>
 </section>
 

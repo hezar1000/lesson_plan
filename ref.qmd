@@ -11,4 +11,4 @@ title: "Estimation of out-of-sample prediction error in regression"
 
 - [*Lecture notes on Error and Validation*](https://www.stat.cmu.edu/~ryantibs/advmethods/notes/errval.pdf), Ryan Tibshirani, 2014. 
 
-- I also used [ChatGPT](https://chatgpt.com/) for a little bit of brainstorming, proof-reading, and genereating code. 
+- I also used [ChatGPT](https://chatgpt.com/) for brainstorming, proof-reading, and genereating code. 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.2.8)  8 FEB 2025 14:53
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.2.8)  8 FEB 2025 16:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -829,21 +829,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 173--176
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 195--198
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 200--203
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 203--206
-
- []
-
-
 
 [1
 
@@ -856,15 +841,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.243         \begin{itemize}
+l.272         \begin{itemize}
                               
 Here is how much of TeX's memory you used:
- 21486 strings out of 475846
- 416641 string characters out of 5773302
+ 21497 strings out of 475846
+ 417078 string characters out of 5773302
  1095494 words of memory out of 5000000
- 44187 multiletter control sequences out of 15000+600000
+ 44198 multiletter control sequences out of 15000+600000
  562417 words of font info for 67 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 108i,7n,114p,10900b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,7n,114p,10900b,398s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on index.pdf (1 page).

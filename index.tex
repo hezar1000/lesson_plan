@@ -179,8 +179,8 @@ When designing this lesson plan, I've assumed that students
   model) but have not used them for more advanced tasks such as
   cross-validation.
 \item
-  are comfortable running Python code in a jupyter lab enviroment on
-  their own.
+  are comfortable with running Python code in a jupyter lab environment
+  on their own.
 \item
   are familiar with the matrix notation used in statistical learning.
 \end{itemize}
@@ -192,134 +192,82 @@ By the end of this lesson, students should be able to:
 \begin{itemize}
 \tightlist
 \item
-  Indentify the difference between inference and prediction in
-  regression.\\
+  Identify the difference between \textbf{inference} and
+  \textbf{prediction} in regression.
 \item
-  Understand the training/test/validation data split
+  Understand the \textbf{training/test/validation data split}.
 \item
-  Define out-of-sample prediction error in theory and identify its
-  importance.\\
+  Define out-of-sample prediction error and \textbf{explain} its
+  importance.
 \item
   Use Python to estimate out-of-sample prediction error via
-  cross-validation given training data .\\
+  \textbf{cross-validation} given training data.
 \item
-  Understand the Bias-Variance Trade-Off and it relationship to
-  prediction error.
+  Understand the \textbf{Bias-Variance Trade-Off} and its relationship
+  to prediction error.
 \end{itemize}
 
 \subsection{Outline}\label{outline}
 
+\subsubsection{Lecture 1: Basics}\label{lecture-1-basics}
+
 \begin{itemize}
 \tightlist
 \item
-  Lecture 1: Basics
+  Regression definition
+\item
+  Inference vs Prediction
+\item
+  Training/test split
+\item
+  Out-of-sample prediction error in regression
 
   \begin{itemize}
   \tightlist
   \item
-    Regression definition
+    Definition
   \item
-    Inference vs Prediction
+    Why do we care about estimating out-of-sample error?
   \item
-    Training/test split
-  \item
-    Out-of-sample prediction error in regression
+    In-class discussion: Can we ever make a prediction with zero
+    prediction error?
 
     \begin{itemize}
     \tightlist
     \item
-      Definition
-    \item
-      Why do we care about estimating out-of-sample error?
-    \item
-      In-class discussion: can we ever make a prediction with zero
-      prediction error?
+      Goals:
 
       \begin{itemize}
       \tightlist
       \item
-        Goals:
-
-        \begin{itemize}
-        \tightlist
-        \item
-          give students a chance to digest and reflect on the topics
-          covers so far,
-        \item
-          remind them of reducible and irreducible error
-        \end{itemize}
-      \end{itemize}
-    \end{itemize}
-  \item
-    Estimating the prediction error
-
-    \begin{itemize}
-    \tightlist
-    \item
-      Motivation
-    \item
-      First approach: estimating prediction error with in-sample
-      (training) error
-
-      \begin{itemize}
-      \tightlist
+        Give students a chance to digest and reflect on the topics
+        covered so far
       \item
-        Example: Linear Regression
-
-        \begin{itemize}
-        \tightlist
-        \item
-          In-class live-coding activity: calculate and compare the
-          training and test errors using different seeds.
-
-          \begin{itemize}
-          \tightlist
-          \item
-            Goals:
-
-            \begin{itemize}
-            \tightlist
-            \item
-              give students a chance to play with training and test
-              errors on simple regression model
-            \item
-              give thema chance to observe how different they can be.
-            \end{itemize}
-          \end{itemize}
-        \end{itemize}
+        Remind them of reducible and irreducible error
       \end{itemize}
-    \end{itemize}
-  \item
-    The Bias-Variance Trade-Off
-
-    \begin{itemize}
-    \tightlist
-    \item
-      Motivating example: 10th order polynomial regression
-    \item
-      Definition
     \end{itemize}
   \end{itemize}
 \item
-  Lecture 2: Cross validation
+  Estimating the prediction error
 
   \begin{itemize}
   \tightlist
   \item
-    Estimating the prediction error (continued)
+    Motivation
+  \item
+    First approach: Estimating prediction error with in-sample
+    (training) error
 
     \begin{itemize}
     \tightlist
     \item
-      Splitting the training data to get a validation set
-    \item
-      Second approach: A single held-out point
+      Example: Linear Regression
 
       \begin{itemize}
       \tightlist
       \item
-        In-class discussion: Discussion of estimate for the
-        out-of-sample prediction error via a single held-out point
+        In-class live-coding activity: Calculate and compare the
+        training and test errors using different seeds.
 
         \begin{itemize}
         \tightlist
@@ -329,38 +277,106 @@ By the end of this lesson, students should be able to:
           \begin{itemize}
           \tightlist
           \item
-            Give students a chance to digest the idea of a validation
-            set
+            Give students a chance to play with training and test errors
+            on a simple regression model
           \item
-            Make them more comfortable with estimating the prediction
-            error with training data
+            Give them a chance to observe how different they can be
           \end{itemize}
         \end{itemize}
       \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\item
+  The Bias-Variance Trade-Off
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Motivating example: 10th order polynomial regression
+  \item
+    Overfitting vs underfitting
+  \item
+    Definition
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Lecture 2:
+Cross-validation}\label{lecture-2-cross-validation}
+
+\begin{itemize}
+\tightlist
+\item
+  Estimating the prediction error (continued)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Splitting the training data to get a validation set
+  \item
+    Second approach: A single held-out point
+
+    \begin{itemize}
+    \tightlist
     \item
-      Third approach: Cross-validation
+      In-class discussion: Discussion of the estimate for the
+      out-of-sample prediction error via a single held-out point
 
       \begin{itemize}
       \tightlist
       \item
-        LOOCV
-      \item
-        K-fold cross-calidation
-      \end{itemize}
-    \item
-      Implementing cross-valication in Python
+        Goals:
 
-      \begin{itemize}
-      \tightlist
-      \item
-        How to perform LOOCV in Python
-      \item
-        How to perform \(K\)-fold cross-validation in Python
+        \begin{itemize}
+        \tightlist
+        \item
+          Give students a chance to digest the idea of a validation set
+        \item
+          Make them more comfortable with estimating the prediction
+          error with training data
+        \end{itemize}
       \end{itemize}
     \end{itemize}
   \item
-    Bias-Variance Trade-Off for k-Fold cross-validation
+    Third approach: Cross-validation
+
+    \begin{itemize}
+    \tightlist
+    \item
+      LOOCV
+    \item
+      K-fold cross-validation
+    \end{itemize}
+  \item
+    Implementing cross-validation in Python
+
+    \begin{itemize}
+    \tightlist
+    \item
+      How to perform LOOCV in Python
+    \item
+      How to perform \(K\)-fold cross-validation in Python
+    \end{itemize}
+  \item
+    In-class live-coding activity: \(K\)-fold cross-validation
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Goals:
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Let students play with \(K\)-fold cross-validation and get
+        comfortable with the idea
+      \item
+        Get a sense for Bias-Variance Trade-Off for \(K\)-Fold
+        cross-validation via an example
+      \end{itemize}
+    \end{itemize}
   \end{itemize}
+\item
+  Bias-Variance Trade-Off for K-fold cross-validation
 \end{itemize}
 
 

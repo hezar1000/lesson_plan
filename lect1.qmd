@@ -10,28 +10,26 @@ jupyter: quarto_env
 # Lecture 1: Basic concepts and definitions 
 
 ## Learning outcomes:
-By the end of this lectures students should be able to:
+By the end of this lecture, students should be able to:
 
- - understand the difference between inference and prediction in regression (reminder)
- - understand the training/test data split
- - understand the difference between training (in-sample) and test (out-of-sample) prediction errors and define them
- - understand the imporance of out-of-sample prediction error
- - use Python to estimate out-of-sample prediction error via (in-sample) training error in linear regression given the training data
- - understand the draw back of estimating the out-of-sample prediction error via training error
- - understand the Bias-Variance Trade-Off
+- Differentiate between **inference** and **prediction** in regression at a conceptual level.  
+- Understand the reasoning behind **splitting data** into **training and test sets** for model evaluation.  
+- Distinguish between **training (in-sample) error** and **test (out-of-sample) error**, and explain their significance.  
+- Use Python to estimate **out-of-sample prediction error** using **training error** in linear regression.  
+- Define and identify the concepts of **overfitting** and **underfitting** in predictive modeling.  
+- Explain the **Bias-Variance Trade-Off** and its implications for model performance.  
 
 ## Regression
 
-- We have $n$ data points with $p$
-different predictors: $X = (X_1, X_2,...,X_p)$ and a response $Y$, which are independent samples from some distribution.
+- We have $n$ data points with $p$ different predictors: $X = (X_1, X_2, ..., X_p)$ and a response $Y$, which are independent samples from some distribution.
 
-- We assume that there is some relationship between which can be written as 
-$$Y = f(X) + \epsilon,$$ 
-where $f$ is some fixed but unknown function of $X_1,...,X_p$, and $\epsilon$ is a random error term, which is independent of $X$ and has mean zero. 
+- We assume that there is some relationship between them, which can be written as
+  $$Y = f(X) + \epsilon,$$
+  where $f$ is some fixed but unknown function of $X_1, ..., X_p$, and $\epsilon$ is a random error term, which is independent of $X$ and has mean zero.
 
 - Our goal is to **estimate** $f$ via another function called $\hat{f}$.
 
-- When $Y$ is qualitative, we have a **regression** problem (and when it is qualitative, we have a **classification** problem). 
+- When $Y$ is quantitative, we have a **regression** problem (and when it is qualitative, we have a **classification** problem).
 
 ## Inference vs Prediction
 ### Why estimate $f$?
@@ -61,6 +59,7 @@ where the expectation is taken over the training data $X, Y$, and test data $X^*
 - To **evalute** the quality of predicition in our model,
 - To be able to **minimize** the error for better prediction.
 
+Example: Imagine to you've trained a model to predict stock market. Think about how much you care about you model being accurate in the unseen future.
 ---
 
 :::{.activity}
@@ -80,23 +79,23 @@ Activity: In-class discussion
 
 ## Estimating the prediction error
 
-In practice, we can not use the test data $X^*$ and $Y^*$ to estimate the prediction error during the training phase because  
+In practice, we cannot use the test data $X^*$ and $Y^*$ to estimate the prediction error during the training phase because:
 
-- in many cases, there is no test data,
-- even if there is, we are not allowed to use it during the training phase. 
+- In many cases, there is no test data.
+- Even if there is, we are not allowed to use it during the training phase.
 
-Therefore, we can not directly calculate the prediction error, instead we need a method to estimate this quantity using our training data. 
+Therefore, we cannot directly calculate the prediction error; instead, we need a method to estimate this quantity using our training data.
 
 ### How about estimating prediction error with in-sample (training) error?
 In the regression setting, the most commonly-used measure  for the quality of fit is the mean squared error (MSE), given by
 
 $$\frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}(x_i))^2$$
 
-Note that $Y= (y_1,y_2,...,y_n)$, $X = (x_1,...,x_n)$ and $x_i = (x_{i1}, x_{i2},...,x_{ip})^T$.
+Note that $Y= (y_1,y_2,...,y_n)$, $X = (x_1,...,x_n)$, and $x_i = (x_{i1}, x_{i2},...,x_{ip})^T$.
 
 Can we use this MSE as an estimate for prediction error? 
   
-  - This approach usually gives an optimistic estimate of the prediction error. This is not suprising because when training our model to calculate $\hat{f}$, we are minize this error during the process. 
+  - This approach usually gives an optimistic estimate of the prediction error. This is not surprising because when training our model to calculate $\hat{f}$, we are minimizing this error during the process.
 
 
 ## Example: Linear Regression
@@ -104,20 +103,19 @@ Can we use this MSE as an estimate for prediction error?
 ### Reminder
 In linear regression, we have:
 
-$$f(X) = \beta_0 + \beta_1 X_1 +  \beta_2 X_2 + ··· + \beta_p X_p,$$
+$$f(X) = \beta_0 + \beta_1 X_1 +  \beta_2 X_2 + \dots + \beta_p X_p,$$
 
-and our goal is to find $\beta_0, \dots , \beta_p$ . The most common approach to fit this linear model is using the
-the least squares method, which basically minimizes the MSE of the training test. 
+and our goal is to find $\beta_0, \dots , \beta_p$. The most common approach to fit this linear model is using the least squares method, which essentially minimizes the MSE of the training set.
 
-Therefore, after computing $\hat{f}$ through the training phase. So, given new $X^*$, 
+Therefore, after computing $\hat{f}$ through the training phase, given new $X^*$, we have:
 
-$$\hat{Y}^* =  \hat{\beta_0} + \hat{\beta_1} X^*_1 +  \hat{\beta_2} X^*_2 + ··· + \hat{\beta_p} X^*_p,$$
+$$\hat{Y}^* = \hat{\beta_0} + \hat{\beta_1} X^*_1 + \hat{\beta_2} X^*_2 + \dots + \hat{\beta_p} X^*_p,$$
 
-and we can estimate the prediction error by the training error:
+and we can estimate the prediction error using the training error:
 
 $$\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 
-Note that $Y= (y_1,y_2,...,y_n)$ and $\hat{Y}= (\hat{y}_1,...,\hat{y}_n)$.
+Note that $Y = (y_1, y_2, \dots, y_n)$ and $\hat{Y} = (\hat{y}_1, \dots, \hat{y}_n)$.
 
 :::{.activity}
 
@@ -346,13 +344,17 @@ In this equation, $Var(\epsilon)$ represents the **irreducible error**, which is
 
 However, the prediction error also consists of a **bias** term and a **variance** term, both of which depend on the data. The **variance** measures how much $\hat{f}(X^*)$ would change if we used a different training dataset. If variance is high, small changes in the training data result in large changes in $\hat{f}$, leading to **overfitting**.
 
+  - Extreme example of overfitting: A curve that goes through every training datapoint 
+
 The **bias** term represents the error introduced by our choice of model. If we use a very simple model, the bias might be high because it is unlikely that the true data-generating process follows such a simplistic structure. This results in **underfitting**.
+
+  - Extreme example of overfitting: A horizontal line
 
 As a general rule, **more flexible models** tend to have **higher variance** but **lower bias**, while **simpler models** have **higher bias** but **lower variance**. This fundamental trade-off between bias and variance is known as the **bias-variance trade-off**.
 
-In practice, we often cannot explicitly compute the prediction error, bias, or variance, but we should always keep the **bias-variance trade-off** in mind when choosing and evaluating models.
+In practice, as mentioned, we often cannot explicitly compute the prediction error, bias, or variance, so, we should always keep the **bias-variance trade-off** in mind when choosing and evaluating models.
 
-### Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship 
+Example: bias-variance trade-off in a regression modes used to fit data with Quadratic relationship 
 
 ```{python}
 import numpy as np
